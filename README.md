@@ -24,7 +24,7 @@ Initialized with Vite+ using Bun workspaces.
 | `apps/web`               | Tailwind + Ripple SPA editor                     |
 | `packages/custom-legacy` | Original Python implementation                   |
 
-Node.js 24 以上と pnpm 12.6.0 を使用します。
+You need Node.js 24 or later and pnpm 12.6.0 or later.
 
 ```sh
 pnpm install --frozen-lockfile
