@@ -1,0 +1,42 @@
+Yo-kai Watch U: Ver0 Update Experiment Based on Ver2
+
+Recorded on: 2026-10-12
+Hardware observations reported by: The user
+
+Objective
+Determine whether changing the version-related value in the root reference list
+from 0x42 to 0x40 causes the device to accept the update data and changes the spoken version announcement.
+
+Data Used
+Original file: youkaiwatch_archive/Ver2_U.yki
+Experimental file: outputs/custom_yki/Ver0_U.yki
+Change manifest: outputs/custom_yki/Ver0_U.manifest.json
+Experimental file size: 974,848 bytes
+Experimental file SHA256:
+7c46ec01d2f9993c90cc0b9f2341fc297dc84ae5d379a5fe6d072f55c6426b12
+
+Changes
+File offset 0x372 (resource 0 start + 0x2E): 0x42 → 0x40
+File offset 0x02E (additive checksum): 0x47 → 0x49
+Only these two bytes changed. Medal data, candidate LED data, and audio data remained identical to Ver2.
+The checksum, reference bounds, and byte-for-byte reconstruction of the original data were verified during creation.
+
+Hardware Observations
+The user reported that loading the experimental file caused the device to accept the update
+and upgrade from "Version Two" to "Version Zero."
+
+"Version Two" sounded like an actual recorded voice.
+For "Version Zero," only the "Zero" part sounded like a synthesized voice similar to Yukkuri text-to-speech.
+This was the user's listening impression, not a conclusion from analysis of a recording.
+
+Supported Findings
+This device accepted the experimental YKI based on Ver2.
+Changing 0x42 to 0x40 changed the spoken version from "Two" to "Zero."
+The hardware observation therefore supports involvement of this reference value in the spoken version announcement.
+No new audio for "Zero" was added to the experimental file.
+
+Interpretation and Unresolved Questions
+The tag=0 ID 0x40 may select audio or processing associated with "Version Zero" on the device.
+Listening impressions alone cannot distinguish runtime speech synthesis from a prerecorded synthesized voice already stored on the device.
+Whether this value also controls internal version management beyond the announcement remains unresolved.
+The report did not include results for all medal playback, LED behavior, or subsequent updates.

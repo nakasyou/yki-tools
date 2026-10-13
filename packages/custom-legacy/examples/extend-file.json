@@ -1,0 +1,6 @@
+{
+  "$schema": "../yki.schema.json",
+  "extends": "../../outputs/custom_yki/Ver2_U_yarimasunesugi_nopad.yki",
+  "version": 0,
+  "overrides": []
+}

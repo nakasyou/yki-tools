@@ -1,0 +1,29 @@
+{
+  "$schema": "../yki.schema.json",
+  "extends": 7,
+  "version": 7,
+  "mappingPolicy": "strict",
+  "audio": {
+    "frameAlignment": "trim",
+    "volume": "preserve",
+    "allowClipping": true
+  },
+  "overrides": [
+    {
+      "type": "song",
+      "id": "B661",
+      "songSound": "../../third_party/media/inmuking2.wav",
+      "nameSound": "../../third_party/media/yarimasune.mp3",
+      "led": {
+        "resource": 11,
+        "repeat": 12
+      }
+    },
+    {
+      "type": "song",
+      "id": "B656",
+      "songSound": "../../third_party/media/chord_10sec.mp3",
+      "nameSound": "../../third_party/media/chord_10sec.mp3"
+    }
+  ]
+}

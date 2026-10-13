@@ -1,0 +1,22 @@
+Yo-kai Watch U: Long Audio Playback on Hardware
+
+Recorded on: 2026-10-12
+Evidence: User hardware report, "Playback of 242.20s succeeded."
+
+Results
+The user reported successful playback of 242.20 seconds (4 minutes 2.20 seconds) of audio.
+This establishes playback of at least 242.20 seconds under the reported experimental conditions.
+The longest original audio clip, 47.56 seconds, is not the device's playback limit.
+This does not establish 242.20 seconds as the maximum duration.
+
+Format-Based Calculation (Not Measurements from the Actual File)
+Assuming the existing format of 20 ms per frame and 40 bytes per frame:
+Frame count: 12,110
+Compressed payload: 484,400 bytes
+Length including the 32-byte AU header: 484,432 bytes
+
+Unverified Details
+The YKI, JSON, and audio filenames, SHA256 hashes, inherited version, target medal, and audio slot were not supplied.
+LED behavior and the method used to measure elapsed playback time were also not supplied.
+Success is not attributed to a specific generated file or slot, nor generalized to every medal.
+The format's 32-bit field limit, the CLI's PCM size limit, and the device's playback limit are separate constraints.

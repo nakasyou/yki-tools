@@ -1,0 +1,47 @@
+Yo-kai Watch U Ver2: Replacing the Mogumogu Brothers Song
+
+Recorded on: 2026-10-12
+Status: Custom YKI creation and software validation completed. The user reported successful replacement on hardware.
+
+Inputs
+youkaiwatch_archive/Ver2_U.yki
+yarimasunesugi.mp3 (48 kHz, stereo; MP3 container duration: 17.016 seconds)
+
+Outputs
+outputs/custom_yki/Ver2_U_yarimasunesugi.yki
+SHA256: 724a6c6072138ad3aa29d2db8bf9fd321edd93b781600bd9a9ef2ccad7bb4a36
+File size: 974,848 bytes (the same as the original Ver2 file)
+Change manifest: outputs/custom_yki/Ver2_U_yarimasunesugi.manifest.json
+Decoded preview: outputs/custom_yki/yarimasunesugi_encoded_preview.wav
+
+Replacement Target
+The existing name lookup table identifies medal row 655 as Mogumogu Brothers.
+Row 655 p1 references resource17, which references candidate LED resource5 and audio resource31.
+Only the compressed payload of resource31, corresponding to the song, was changed.
+Shared intro audio resource26, call audio resource76, and candidate LED resource5 were retained.
+
+Encoding
+ffmpeg converted the input to 16 kHz, mono, signed 16-bit PCM.
+The converted input contained 272,080 samples (17.005 seconds).
+To match the original song's 392,960 samples (24.56 seconds), 7.555 seconds of silence were appended.
+The local libg7221 floating-point encoder was used at 16 kbps and 16 kHz.
+There were 1,228 frames, each encoding 320 samples into 40 bytes, for a 49,120-byte compressed payload.
+The bit order of each byte was reversed before storage immediately after the AU header.
+The AU header, resource address table, length fields, and filler were retained from the original data.
+The additive checksum was recalculated from 0x47 to 0x59.
+
+Validation
+The saved YKI was re-analyzed to verify the checksum, complete byte coverage, reference bounds, and lossless reconstruction.
+Every resource except resource31, along with the medal table and root reference list, matched the original Ver2 data.
+Compressed data extracted from the saved YKI matched the encoder output.
+The existing decoder produced 392,960 samples, matching the declared frame count.
+After compensating for a 20 ms delay, normalized waveform correlation with the input was approximately 0.968.
+RMS was zero in the steady portion of the trailing silence.
+These software checks alone do not guarantee hardware playback compatibility.
+
+Hardware Results
+On 2026-10-12, the user reported, "It worked."
+Successful replacement of the Mogumogu Brothers song on hardware is recorded for this custom Ver2 file.
+For this data and device combination, the report confirms playback compatibility of the replacement procedure,
+including 16 kHz mono encoding at 16 kbps, per-byte bit reversal, and checksum recalculation.
+Detailed evaluations of sound quality, LED synchronization, other medals, and audio of different lengths were not reported.

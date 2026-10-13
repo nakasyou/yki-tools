@@ -1,0 +1,18 @@
+{
+  "$schema": "../yki.schema.json",
+  "extends": 2,
+  "version": 2,
+  "mappingPolicy": "strict",
+  "audio": {
+    "frameAlignment": "trim",
+    "volume": "match",
+    "allowClipping": true
+  },
+  "overrides": [
+    {
+      "id": "0xE7BA",
+      "type": "song",
+      "songSound": "../../third_party/media/yarimasunesugi.mp3"
+    }
+  ]
+}

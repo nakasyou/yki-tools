@@ -1,0 +1,43 @@
+# Original YKI files (provide locally).
+/yki/*
+
+# Downloaded works, source checkouts, archives and extracted data.
+/third_party/local/
+/third_party/media/
+/third_party/models/
+/third_party/archives/
+
+# Generated binaries, decoded audio, meshes and analysis dumps.
+/outputs/
+*.yki
+*.manifest.json
+*.zip
+*.stl
+*.blend
+*.blend1
+*.pcm
+*.wav
+*.mp3
+*.webm
+*.flac
+
+# Local Python environments and build caches.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.cache/
+.pytest_cache/
+build/
+dist/
+
+research/data/
+
+# JavaScript workspaces and MoonBit builds.
+node_modules/
+_build/
+.mooncakes/
+test-results/
+playwright-report/
+/apps/web/public/engine/

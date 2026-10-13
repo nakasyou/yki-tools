@@ -1,0 +1,22 @@
+{
+  "$schema": "../yki.schema.json",
+  "extends": 2,
+  "audio": { "frameAlignment": "trim", "volume": "preserve" },
+  "overrides": [
+    {
+      "id": { "medal": 900 },
+      "type": "song",
+      "template": 655,
+      "songSound": "../../third_party/media/yarimasunesugi.mp3",
+      "callSound": null,
+      "led": {
+        "frames": [
+          [255, 0, 0],
+          [0, 255, 0],
+          [0, 0, 255]
+        ],
+        "repeat": 100
+      }
+    }
+  ]
+}

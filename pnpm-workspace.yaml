@@ -1,0 +1,10 @@
+packages:
+  - 'packages/*'
+  - 'apps/*'
+
+overrides:
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.9
+
+allowBuilds:
+  '@tailwindcss/oxide': true
+  esbuild: true

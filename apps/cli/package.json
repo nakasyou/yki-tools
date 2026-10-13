@@ -1,0 +1,16 @@
+{
+  "name": "@nakasyou/custom-cli",
+  "version": "0.1.0",
+  "private": true,
+  "bin": {
+    "yki-cli": "./dist/index.mjs"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "vp pack",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nakasyou/yki-core": "workspace:*"
+  }
+}

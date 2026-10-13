@@ -1,0 +1,29 @@
+{
+  "name": "youkaiwatch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --dir apps/web run dev",
+    "build": "pnpm --dir packages/yki-core run build && pnpm --dir packages/yki-sdk run build && pnpm --dir apps/cli run build && pnpm --dir apps/web run build",
+    "build:codec": "pnpm --dir packages/yki-core run build",
+    "format": "vp fmt . --write && pnpm --dir apps/web run format:ripple",
+    "format:check": "vp fmt . --check && pnpm --dir apps/web run format:ripple:check",
+    "check": "pnpm --dir packages/yki-core run typecheck && pnpm --dir packages/yki-sdk run typecheck && pnpm --dir apps/cli run typecheck && pnpm --dir apps/web run typecheck",
+    "test": "pnpm --dir packages/yki-core run test && pnpm --dir packages/yki-sdk run test && pnpm --dir apps/web run test",
+    "cli": "node apps/cli/src/index.ts",
+    "medal": "node packages/3d-generator/generate_medal.mjs",
+    "test:e2e": "pnpm exec playwright test --config apps/web/playwright.config.ts",
+    "test:media": "pnpm --dir packages/yki-sdk run test:media"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@types/node": "^24.0.0",
+    "typescript": "5.9.3",
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.2.9",
+    "vite-plus": "0.2.9"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@12.6.0"
+}

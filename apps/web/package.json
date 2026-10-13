@@ -1,0 +1,30 @@
+{
+  "name": "@nakasyou/yki-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev --host 127.0.0.1",
+    "build": "vp build",
+    "typecheck": "tsrx-tsc --noEmit",
+    "test": "vp test run",
+    "format:ripple": "prettier --plugin @tsrx/prettier-plugin --write 'src/**/*.tsrx'",
+    "format:ripple:check": "prettier --plugin @tsrx/prettier-plugin --check 'src/**/*.tsrx'",
+    "predev": "node ../../scripts/prepare-web.mjs",
+    "prebuild": "node ../../scripts/prepare-web.mjs",
+    "preview": "vp preview --host 127.0.0.1 --port 4173"
+  },
+  "dependencies": {
+    "@nakasyou/yki-core": "workspace:*",
+    "@nakasyou/yki-sdk": "workspace:*",
+    "ripple": "0.4.7"
+  },
+  "devDependencies": {
+    "@ripple-ts/vite-plugin": "0.4.7",
+    "@tailwindcss/vite": "4.3.3",
+    "@tsrx/prettier-plugin": "0.4.7",
+    "@tsrx/typescript-plugin": "0.4.7",
+    "prettier": "^3.6.2",
+    "tailwindcss": "4.3.3"
+  }
+}

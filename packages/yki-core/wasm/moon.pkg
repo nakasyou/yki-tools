@@ -1,0 +1,24 @@
+import {
+  "nakasyou/yki-core" @core,
+  "moonbitlang/core/json",
+  "moonbitlang/core/encoding/utf8",
+}
+
+options(
+  link: {
+    "wasm": {
+      "exports": [
+        "input_begin",
+        "input_write",
+        "invoke",
+        "output_length",
+        "output_read",
+        "host_request_length",
+        "host_request_read",
+        "host_response_begin",
+        "host_response_write",
+      ],
+      "export-memory-name": "memory",
+    },
+  },
+)

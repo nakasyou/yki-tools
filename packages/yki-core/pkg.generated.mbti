@@ -1,0 +1,103 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "nakasyou/yki-core"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn build(Json, (Json) -> Json raise YkiError, strict? : Bool) -> BuildResult raise YkiError
+
+pub fn decode_audio(Bytes, (Json) -> Json raise YkiError) -> Bytes raise YkiError
+
+pub fn decode_g7221(Bytes) -> Bytes raise YkiError
+
+pub fn describe(Bytes) -> Json raise YkiError
+
+pub fn encode_audio(String, Json, Bytes?, (Json) -> Json raise YkiError, (String) -> Unit) -> EncodedAudio raise YkiError
+
+pub fn encode_g7221(Bytes) -> Bytes raise YkiError
+
+pub fn generate_medal(String, mode? : String, orientation? : String, mirror? : Bool) -> Json raise YkiError
+
+pub fn hex_decode(String) -> Bytes raise YkiError
+
+pub fn hex_encode(Bytes) -> String
+
+pub fn inspect(Bytes) -> Json raise YkiError
+
+pub fn led_frames(Json, (Json) -> Json raise YkiError) -> Array[Array[Int]] raise YkiError
+
+pub fn make_au(Bytes) -> Bytes raise YkiError
+
+pub fn parse(Bytes) -> Image raise YkiError
+
+pub fn request(Json, (Json) -> Json raise YkiError) -> Json raise YkiError
+
+pub fn resolve_id(Json, Image, (String) -> Unit, strict? : Bool) -> Json raise YkiError
+
+pub fn reverse_bits(Bytes) -> Bytes
+
+pub fn schema() -> Json raise YkiError
+
+pub fn sha256(Bytes) -> String
+
+pub fn validate(Json, (Json) -> Json raise YkiError, strict? : Bool) -> Json raise YkiError
+
+pub fn validate_config(Json) -> Unit raise YkiError
+
+// Errors
+pub(all) suberror YkiError {
+  YkiError(String)
+} derive(@debug.Debug)
+
+// Types and methods
+pub(all) struct Asset {
+  kind : Kind
+  blob : Bytes
+  pairs : Array[Pair]
+}
+
+pub(all) struct BuildResult {
+  data : Bytes
+  manifest : Json
+  warnings : Array[String]
+}
+
+pub(all) struct EncodedAudio {
+  blob : Bytes
+  record : Json
+}
+
+pub struct Image {
+  root : Array[Pair]
+  rows : Array[Array[Pair]]
+  assets : Array[Asset]
+  mut mapping : Array[Int]
+  // private fields
+}
+pub fn Image::active(Self, Array[Pair]) -> Bool
+pub fn Image::append(Self, Kind, blob? : Bytes, pairs? : Array[Pair]) -> Pair
+pub fn Image::audio_blob(Self, Pair) -> Bytes?
+pub fn Image::audio_pair(Self, Pair) -> Pair
+pub fn Image::kind(Self, Pair) -> Kind?
+pub fn Image::row_type(Self, Array[Pair]) -> String
+pub fn Image::serialize(Self) -> Bytes raise YkiError
+
+pub(all) enum Kind {
+  Root
+  MedalTable
+  Led
+  Sequence
+  Audio
+} derive(Eq, @debug.Debug)
+
+pub(all) struct Pair {
+  tag : Int
+  value : Int
+} derive(Eq, ToJson, @debug.Debug)
+
+// Type aliases
+pub type Host = (Json) -> Json raise YkiError
+
+// Traits

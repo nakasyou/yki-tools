@@ -1,0 +1,49 @@
+Hardware Observations for the B661 / E83A Candidate
+
+Latest conclusion: The user corrected the initial report: "I was mistaken. It worked. It was a false response."
+Successful operation was reported with this experiment's B661 configuration and E83A model.
+The "Fuankan" observation below is a historical record of a false response that was subsequently withdrawn.
+It must not be treated as evidence against the inferred E83A → B661 mapping.
+Success in this experiment does not prove a conversion formula for the entire E block.
+
+Recorded on: 2026-10-12
+Initial user report: "Fuankan" played.
+Immediately preceding experiment proposal: Configure B661 in Ver7 as a song medal, using B655 as its template.
+Generated model: 3d/B661_E83A_lite.stl
+Canonical input peg pattern: 1110 / 1000 / 0011 / 1010 (E83A)
+Peg pattern in model coordinates: 0111 / 0001 / 1100 / 0101
+
+Initial Interpretation
+The reported name differed from the expected audio for the newly configured song medal.
+E83A → B661 was an unverified E-block inference; the initial report did not confirm that mapping.
+Possible causes, including an incorrect inference, differences in physical reading, and a different YKI file, could not yet be distinguished.
+The name "Fuankan" alone does not identify the B number actually selected.
+
+Initially Missing Information
+The JSON and YKI filenames and hashes actually used, the audio file contents,
+the timing of the announcement, and measured peg geometry on the printed model were not supplied.
+The initial assessment called for reporting the unexpected hardware result alongside any recommendation of E83A → B661.
+That provisional assessment was superseded by the later success report.
+
+JSON Verification and Regeneration Addendum
+The user-specified JSON was cli/examples/yaj.json.
+extends=7, version=7, id=B661, type=song, template=655.
+songSound=../../yarimasunesugi.mp3, nameSound=../../yarimasune.mp3.
+Volume policy: preserve. Partial-frame policy: trim.
+Regenerated file: cli/examples/yaj.yki
+SHA256: f3870e22f247db1921fe111c7840adcf6ed0663d91f92b51bfea26a83ad6e750
+File size: 3,260,416 bytes.
+Two builds with the same JSON, current inputs, and CLI were byte-for-byte identical.
+The previously deleted YKI had no recorded hash, so equality with that earlier file could not be verified.
+In the output, B661 p1 references sequence82 and p4 references AU398.
+The song and nameSound were decoded from the generated YKI to create preview WAV files.
+The template's introSound and callSound remained inherited from B655.
+Whether a song medal's p4/nameSound plays on hardware was unresolved.
+At that stage, the observation could not be attributed definitively to peg mapping, physical reading, update application, or slot selection.
+
+Hardware Success Correction Addendum (2026-10-12)
+The user corrected the initial report, stating that it worked and that the earlier observation was a false response.
+The configuration discussed was the B661 song medal generated from cli/examples/yaj.json,
+with the model 3d/B661_E83A_lite.stl.
+Successful operation is recorded for this combination.
+The physical cause of the false response and whether each audio slot played individually were not reported.

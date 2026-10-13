@@ -1,0 +1,59 @@
+Yo-kai Watch U Ver2: Removing Song Silence Padding and Matching Volume
+
+Recorded on: 2026-10-12
+Status: File creation, structural validation, and software decoding checks completed. The user reported that LEDs stopped after the audio ended on hardware.
+
+Inputs and Outputs
+Original YKI: youkaiwatch_archive/Ver2_U.yki
+Input audio: yarimasunesugi.mp3
+Output: outputs/custom_yki/Ver2_U_yarimasunesugi_nopad.yki
+SHA256: 63d54be07a4faafd5bb27d37bed42fee6dcb70bc7a5f864a164471f63ad62bbc
+File size: 962,560 bytes
+Change manifest: outputs/custom_yki/Ver2_U_yarimasunesugi_nopad.manifest.json
+Decoded preview: outputs/custom_yki/yarimasunesugi_nopad_preview.wav
+
+Audio Duration
+The previously added 7.555 seconds of silence were removed; no audio padding samples were added.
+The input 16 kHz mono PCM contained 272,080 samples, or 17.005 seconds.
+Only the final 80 samples (5 ms) were trimmed to align to 320-sample frames.
+Stored audio: 850 frames, 17.00 seconds, and a 34,000-byte compressed payload.
+The format remained 16 kHz, mono, and 16 kbps.
+
+Volume Reference and Results
+Peak and RMS measurements of all 55 Ver2 audio resources confirmed sample peaks of 0 dBFS for all 12 songs.
+The volume reference was the original Mogumogu Brothers song, resource31.
+Comparison values were measured after software decoding of the stored audio.
+
+                         Original song    Replacement
+Sample peak               0 dBFS           0 dBFS
+Integrated loudness      -6.18 LUFS        -6.15 LUFS
+True peak                +3.08 dBTP        +1.85 dBTP
+Loudness range            2.0 LU           2.6 LU
+
+Sample peak and integrated loudness were matched. True peak and loudness range were not identical.
+Gain applied to the input PCM was approximately +7.761 dB.
+After applying gain, values were saturated to the 16-bit PCM range, causing clipping where the limits were exceeded.
+The original song also exhibited full-scale clipping, but this operation is not a simple volume change that preserves waveform and sound quality.
+Gain was adjusted using measurements of the decoded compressed audio, bringing integrated loudness within 0.03 LU of the reference.
+The final filter and measurements were saved in yarimasunesugi_nopad_volume_calibration.json.
+
+YKI Relocation
+The modified resource was resource31, referenced by Mogumogu Brothers medal row 655.
+The full AU length was reduced from 49,152 bytes to 34,032 bytes.
+Subsequent resources were moved 15,120 bytes earlier, and the complete address table was recalculated.
+The end address and additive checksum were also recalculated. The checksum value was 0xBF.
+The 3,656 bytes of filler required to align the file to a 4096-byte boundary were retained.
+This filler is outside the declared AU length and is not audio padding.
+
+Validation and Scope of Hardware Confirmation
+Complete byte coverage, lossless reconstruction, checksum, and reference-bound checks passed.
+Audio extracted from the saved YKI matched the encoder output and decoded to 272,000 samples.
+The medal table, root reference list, and all other assets were identical to the original Ver2 data.
+Candidate LED resource5 retained its original length and contents. The user observed that LEDs stopped after the shortened audio ended on hardware.
+The success report for the earlier version padded to the original duration is not treated as hardware confirmation of this shortened version.
+
+Hardware Observation Addendum
+On 2026-10-12, the user reported, "The LEDs stopped after the audio ended."
+With this shortened 17.00-second version, LEDs stopped after the audio ended despite retaining the original longer LED data.
+For this combination, the observation is consistent with LED stopping being linked to audio completion.
+The stopping delay was not measured. Simultaneous stopping and generalization to other audio or reference formats remain unverified.

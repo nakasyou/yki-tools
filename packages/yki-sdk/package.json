@@ -1,0 +1,54 @@
+{
+  "name": "@nakasyou/yki-sdk",
+  "version": "0.1.0",
+  "description": "Promise-based SDK for Yo-kai Watch YKI editing and browser audio conversion",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nakasyou/yki-tools.git",
+    "directory": "packages/yki-sdk"
+  },
+  "files": [
+    "dist",
+    "examples",
+    "README.md"
+  ],
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./async-core": {
+      "types": "./dist/async-core.d.mts",
+      "import": "./dist/async-core.mjs"
+    },
+    "./ffmpeg-host": {
+      "types": "./dist/ffmpeg-host.d.mts",
+      "import": "./dist/ffmpeg-host.mjs"
+    },
+    "./wasm": "./dist/browser/yki-core.wasm",
+    "./browser/*": "./dist/browser/*"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.examples.json",
+    "prepare:browser": "node scripts/prepare-browser.mjs",
+    "test": "node --test tests/sdk.test.mjs",
+    "test:media": "node --test tests/sdk-media.test.mjs tests/sdk-worker.test.mjs",
+    "prepublishOnly": "pnpm run build && pnpm run typecheck && pnpm run test"
+  },
+  "dependencies": {
+    "@ffmpeg/ffmpeg": "0.12.15"
+  },
+  "devDependencies": {
+    "@ffmpeg/core": "0.12.10",
+    "@nakasyou/yki-core": "workspace:*"
+  }
+}

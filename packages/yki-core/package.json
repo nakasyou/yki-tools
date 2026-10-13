@@ -1,0 +1,28 @@
+{
+  "name": "@nakasyou/yki-core",
+  "version": "0.1.0",
+  "private": true,
+  "files": [
+    "dist",
+    "js",
+    "README.md"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./node-host": {
+      "types": "./dist/node-host.d.mts",
+      "import": "./dist/node-host.mjs"
+    },
+    "./wasm": "./dist/yki-core.wasm"
+  },
+  "scripts": {
+    "build": "vp pack && node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "moon test --target wasm && node --test tests/core.test.mjs tests/g7221.test.mjs tests/medal.test.mjs",
+    "test:parity": "uv run --project ../custom-legacy python tests/parity.py"
+  }
+}
