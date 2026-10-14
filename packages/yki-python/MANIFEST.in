@@ -1,0 +1,4 @@
+include yki_sdk/wasm/*.wasm
+include yki_sdk/py.typed
+include scripts/build.mjs
+recursive-include tests *.py

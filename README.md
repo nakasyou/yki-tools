@@ -20,6 +20,7 @@ Initialized with Vite+ using Bun workspaces.
 | ------------------------ | ------------------------------------------------ |
 | `packages/yki-core`      | MoonBit parser/editor, WASM and JavaScript hosts |
 | `packages/3d`            | MoonBit medal generation and independent WASM    |
+| `packages/yki-python`    | Python SDK backed by the core and 3D WASM modules |
 | `packages/yki-sdk`       | Async TypeScript SDK with ffmpeg-wasm            |
 | `apps/cli`               | MoonBit-powered custom CLI                       |
 | `apps/web`               | Tailwind + Ripple SPA editor                     |
@@ -100,3 +101,7 @@ pnpm run test
 See [research/README.md](research/README.md).
 
 This layout prepares files for publication; it does not publish or upload them. No distribution license has been selected for the local code as a whole. A license for local code does not apply to third-party materials.
+
+## Python SDK
+
+See [packages/yki-python/README.md](packages/yki-python/README.md) for building and installing the Wasmtime-based Python bindings. The wheel bundles both WASM modules and needs no Node.js or MoonBit at runtime.
