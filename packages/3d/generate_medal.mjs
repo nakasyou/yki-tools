@@ -11,7 +11,7 @@ import {
 } from 'node:fs'
 import { dirname, extname, join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
-import { createCore } from '../yki-core/js/index.mjs'
+import { create3D } from './js/index.mjs'
 
 async function main() {
   const args = process.argv.slice(2)
@@ -52,9 +52,7 @@ async function main() {
     else if (!positional && arg.startsWith('-')) throw new Error(`Unknown argument: ${arg}`)
     else bits.push(arg)
   }
-  const core = await createCore(
-    readFileSync(new URL('../yki-core/dist/yki-core.wasm', import.meta.url)),
-  )
+  const core = await create3D(readFileSync(new URL('./dist/yki-3d.wasm', import.meta.url)))
   const medal = core.generateMedal(bits.join(' '), options)
   const target = resolve(output ?? medal.filename)
   const suffix = extname(target).toLowerCase()

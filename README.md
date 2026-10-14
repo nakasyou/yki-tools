@@ -4,7 +4,7 @@ This project organizes locally developed generation scripts and research records
 
 | Directory                 | Contents                                                           | Git tracking                              |
 | ------------------------- | ------------------------------------------------------------------ | ----------------------------------------- |
-| `packages/3d-generator/`                     | Medal and portrait relief generation scripts                       | Included                                  |
+| `packages/3d/`            | Medal and portrait relief generation scripts                       | Included                                  |
 | `packages/custom-legacy/` | Custom YKI CLI, JSON schema, and configuration examples            | Included                                  |
 | `packages/yki-core/`      | Reusable MoonBit library, WASM, and Node/browser adapters          | Source included; build artifacts excluded |
 | `research/`               | Analysis scripts, lookup tables, and experiment records            | Included                                  |
@@ -19,6 +19,7 @@ Initialized with Vite+ using Bun workspaces.
 | Workspace                | Purpose                                          |
 | ------------------------ | ------------------------------------------------ |
 | `packages/yki-core`      | MoonBit parser/editor, WASM and JavaScript hosts |
+| `packages/3d`            | MoonBit medal generation and independent WASM    |
 | `packages/yki-sdk`       | Async TypeScript SDK with ffmpeg-wasm            |
 | `apps/cli`               | MoonBit-powered custom CLI                       |
 | `apps/web`               | Tailwind + Ripple SPA editor                     |
@@ -60,14 +61,14 @@ The shells pin their Nixpkgs input in `flake.lock`. They configure uv to use the
 
 ## 3D Generation
 
-Medal generation runs in MoonBit/WASM with a Node.js host. Build the core first; STL output also requires OpenSCAD.
+Medal generation runs in the independent `packages/3d` MoonBit/WASM module with a Node.js host. Build the 3D package first; STL output also requires OpenSCAD.
 
 ```sh
-pnpm --dir packages/yki-core run build
+pnpm --dir packages/3d run build
 pnpm medal 1001 0100 1110 1010 -o outputs/3d/medal.scad
 ```
 
-See [3D generator README](packages/3d-generator/README.md) for usage. `packages/3d-generator/templates/` contains a modified third-party model, whose provenance differs from that of the local scripts. Attribution is documented in [third_party/README.md](third_party/README.md).
+See [3D generator README](packages/3d/README.md) for usage. `packages/3d/templates/` contains a modified third-party model, whose provenance differs from that of the local scripts. Attribution is documented in [third_party/README.md](third_party/README.md).
 
 ## Custom YKI Generation
 

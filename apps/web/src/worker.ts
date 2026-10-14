@@ -25,6 +25,7 @@ async function mediaSDK() {
   if (!sdk)
     sdk = await createYkiSDK({
       wasm: await wasm,
+      wasm3d: await (await fetch(new URL('yki-3d.wasm', assets))).arrayBuffer(),
       ffmpegLoad: {
         coreURL: new URL('ffmpeg-core.js', assets).href,
         wasmURL: new URL('ffmpeg-core.wasm', assets).href,

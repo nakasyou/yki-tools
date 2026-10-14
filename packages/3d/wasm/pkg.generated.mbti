@@ -1,0 +1,21 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "nakasyou/yki-3d/wasm"
+
+// Values
+pub fn input_begin(Int) -> Int
+
+pub fn input_write(Int, Int) -> Unit
+
+pub fn invoke() -> Int
+
+pub fn output_length() -> Int
+
+pub fn output_read(Int) -> Int
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

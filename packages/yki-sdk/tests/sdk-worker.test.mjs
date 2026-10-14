@@ -45,6 +45,7 @@ test(
       text(36, 'data')
       view.setUint32(40, pcm.length, true)
       sdk = await createYkiSDK({
+        wasm3d: readFileSync(new URL('../../3d/dist/yki-3d.wasm', import.meta.url)),
         wasm: readFileSync(new URL('../../yki-core/dist/yki-core.wasm', import.meta.url)),
         ffmpeg,
 

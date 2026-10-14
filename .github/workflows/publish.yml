@@ -51,12 +51,15 @@ jobs:
       - run: pnpm install --lockfile-only
       - name: Build and validate
         run: |
+          pnpm --dir packages/3d run build
           pnpm --dir packages/yki-core run build
           pnpm --dir packages/yki-sdk run build
+          pnpm --dir packages/3d run typecheck
+          pnpm --dir packages/3d run test
           pnpm --dir packages/yki-sdk run typecheck
           pnpm --dir packages/yki-sdk run test
           pnpm --dir packages/yki-sdk run test:media
-          pnpm exec vp fmt packages/yki-sdk .github/workflows/publish.yml --check
+          pnpm exec vp fmt packages/3d packages/yki-sdk .github/workflows/publish.yml --check
           cd packages/yki-sdk
           npm pack --dry-run
       - name: Prepare release commit and tag

@@ -30,7 +30,8 @@
       "import": "./dist/ffmpeg-host.mjs"
     },
     "./wasm": "./dist/browser/yki-core.wasm",
-    "./browser/*": "./dist/browser/*"
+    "./browser/*": "./dist/browser/*",
+    "./wasm3d": "./dist/browser/yki-3d.wasm"
   },
   "publishConfig": {
     "access": "public",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "@ffmpeg/core": "0.12.10",
+    "@nakasyou/yki-3d": "workspace:*",
     "@nakasyou/yki-core": "workspace:*"
   }
 }

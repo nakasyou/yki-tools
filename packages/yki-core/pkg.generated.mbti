@@ -18,8 +18,6 @@ pub fn encode_audio(String, Json, Bytes?, (Json) -> Json raise YkiError, (String
 
 pub fn encode_g7221(Bytes) -> Bytes raise YkiError
 
-pub fn generate_medal(String, mode? : String, orientation? : String, mirror? : Bool) -> Json raise YkiError
-
 pub fn hex_decode(String) -> Bytes raise YkiError
 
 pub fn hex_encode(Bytes) -> String

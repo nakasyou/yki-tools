@@ -1,8 +1,12 @@
+import { create3D } from '@nakasyou/yki-3d'
+import type { MedalOptions } from '@nakasyou/yki-3d'
 import { FFmpeg } from '@ffmpeg/ffmpeg'
 import type { FFMessageLoadConfig } from '@ffmpeg/ffmpeg'
 import { createAsyncCore } from './async-core.js'
 import { createFFmpegHost } from './ffmpeg-host.js'
 import type { FileLoader, FileSource } from './ffmpeg-host.js'
+export { create3D } from '@nakasyou/yki-3d'
+export type { ThreeD, MedalOptions, GeneratedMedal } from '@nakasyou/yki-3d'
 export { createAsyncCore } from './async-core.js'
 export { createFFmpegHost, fileBytes } from './ffmpeg-host.js'
 export { createG7221, createG7221 as loadG7221 } from '@nakasyou/yki-core'
@@ -21,6 +25,8 @@ export type {
 
 export interface SDKOptions {
   wasm: BufferSource | WebAssembly.Module
+  /** Independent model generator from packages/3d. */
+  wasm3d: BufferSource | WebAssembly.Module
   readFile: FileLoader
   /** Supply a loaded FFmpeg, or specify URLs to load an SDK-owned instance. */
   ffmpeg?: FFmpeg
@@ -35,6 +41,9 @@ export async function createYkiSDK(options: SDKOptions) {
     if (!ffmpeg.loaded) await ffmpeg.load(options.ffmpegLoad)
     adapter = createFFmpegHost({ ffmpeg, readFile: options.readFile })
     const core = await createAsyncCore(options.wasm, adapter.host)
+    const threeD = await create3D(options.wasm3d)
+    const generateMedal = async (bits: string, options?: MedalOptions) =>
+      threeD.generateMedal(bits, options)
     let closed = false
     let closing: Promise<void> | undefined
     const guard =
@@ -44,7 +53,12 @@ export async function createYkiSDK(options: SDKOptions) {
         return method(...args)
       }
     return {
-      request: guard(core.request),
+      request: guard(async (value: Parameters<typeof core.request>[0]) =>
+        value && typeof value === 'object' && !Array.isArray(value) && value.op === 'generate_medal'
+          ? threeD.request(value)
+          : core.request(value),
+      ),
+      generateMedal: guard(generateMedal),
       encodeG7221: guard(core.encodeG7221),
       decodeG7221: guard(core.decodeG7221),
       schema: guard(core.schema),

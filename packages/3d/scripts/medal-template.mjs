@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 
 // Keep the attributed OpenSCAD template as the single source of geometry.
 const source = readFileSync(
-  new URL('../../3d-generator/templates/classical-yo-kai-medal.scad', import.meta.url),
+  new URL('../templates/classical-yo-kai-medal.scad', import.meta.url),
   'utf8',
 )
 const definitions = /\b(?:code[1-4]|mode)\s*=\s*"(?:[01]*|normal|classic|lite)"\s*;/g

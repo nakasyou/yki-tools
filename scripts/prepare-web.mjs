@@ -11,7 +11,10 @@ for (const name of ['g7221.mjs', 'g7221.wasm']) {
   if (existsSync(path)) unlinkSync(path)
 }
 
-for (const [folder, names] of [['yki-core', ['yki-core.wasm']]]) {
+for (const [folder, names] of [
+  ['yki-core', ['yki-core.wasm']],
+  ['3d', ['yki-3d.wasm']],
+]) {
   for (const name of names)
     copyFileSync(join(root, 'packages', folder, 'dist', name), join(target, name))
 }

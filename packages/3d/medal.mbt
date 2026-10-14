@@ -2,10 +2,10 @@
 /// Generate a printable medal's OpenSCAD source without host capabilities.
 pub fn generate_medal(
   bits : String,
-  mode? : String = "normal",
-  orientation? : String = "canonical",
-  mirror? : Bool = false,
-) -> Json raise YkiError {
+  mode~ : String = "normal",
+  orientation~ : String = "canonical",
+  mirror~ : Bool = false,
+) -> Json raise ThreeDError {
   require(
     mode == "normal" || mode == "classic" || mode == "lite",
     "モードはnormal、classic、liteのいずれかにしてください",
@@ -54,7 +54,7 @@ pub fn generate_medal(
       | 8287
       | 12288 => ()
       _ =>
-        raise YkiError(
+        raise ThreeDError(
           "16桁の0/1、または4桁×4行を指定してください",
         )
     }

@@ -2,21 +2,6 @@
 /// JSON entrypoint shared by the WASM adapter and other MoonBit hosts.
 pub fn request(value : Json, host : Host) -> Json raise YkiError {
   match text(get(value, "op")) {
-    "generate_medal" =>
-      generate_medal(
-        text(get(value, "bits")),
-        mode=str_default(value, "mode", "normal"),
-        orientation=str_default(value, "orientation", "canonical"),
-        mirror=if has(value, "mirror") {
-          match get(value, "mirror") {
-            True => true
-            False => false
-            _ => raise YkiError("mirror must be a boolean")
-          }
-        } else {
-          false
-        },
-      )
     "g7221_encode" =>
       {
         "hex": hex_encode(encode_g7221(json_bytes(get(value, "hex")))).to_json(),

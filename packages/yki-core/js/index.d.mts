@@ -69,7 +69,6 @@ export interface G7221Codec {
 }
 export function createG7221(wasm: BufferSource | WebAssembly.Module): Promise<G7221Codec>
 export interface Core {
-  generateMedal(bits: string, options?: MedalOptions): GeneratedMedal
   encodeG7221(pcm: Uint8Array): Uint8Array
   decodeG7221(payload: Uint8Array): Uint8Array
   request(value: Json): Json
@@ -91,17 +90,6 @@ export interface Core {
   validate(config: Config, strict?: boolean): Json
   build(config: Config, strict?: boolean): { data: Uint8Array; manifest: Manifest }
   decode(blob: Uint8Array): Uint8Array
-}
-export interface MedalOptions {
-  mode?: 'normal' | 'classic' | 'lite'
-  orientation?: 'canonical' | 'physical'
-  mirror?: boolean
-}
-export interface GeneratedMedal {
-  source: string
-  rows: [string, string, string, string]
-  mode: 'normal' | 'classic' | 'lite'
-  filename: string
 }
 export function createCore(
   wasm: BufferSource | WebAssembly.Module,

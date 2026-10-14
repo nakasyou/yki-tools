@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { createCore, toHex } from '@nakasyou/yki-core'
 import { createAsyncCore } from '../dist/async-core.mjs'
-import { createYkiSDK, filesLoader } from '../dist/index.mjs'
+import { createYkiSDK, filesLoader, create3D } from '../dist/index.mjs'
 import { createFFmpegHost } from '../dist/ffmpeg-host.mjs'
 import { fixture } from '../../yki-core/tests/fixture.mjs'
 const wasm = readFileSync(new URL('../../yki-core/dist/yki-core.wasm', import.meta.url))
@@ -54,6 +54,7 @@ test('close waits for a complete in-flight build and does not terminate borrowed
     },
   }
   const sdk = await createYkiSDK({
+    wasm3d: readFileSync(new URL('../../3d/dist/yki-3d.wasm', import.meta.url)),
     wasm,
     ffmpeg,
     readFile: async () => {
@@ -109,4 +110,47 @@ test('async codec API uses MoonBit without any host capability', async () => {
   const payload = await core.encodeG7221(pcm)
   assert.equal(payload.length, 40)
   assert.equal((await core.decodeG7221(payload)).length, 640)
+})
+
+test('SDK binds independent core and 3D WASM, including JSON routing and shutdown', async () => {
+  const wasm3d = readFileSync(new URL('../../3d/dist/yki-3d.wasm', import.meta.url))
+  const ffmpeg = { loaded: true, on() {}, off() {} }
+  const sdk = await createYkiSDK({ wasm, wasm3d, ffmpeg, readFile: () => base })
+  const threeD = await create3D(await WebAssembly.compile(wasm3d))
+  const expected = threeD.generateMedal('1011 0110 0001 1010', { mode: 'lite' })
+  try {
+    const [built, medal] = await Promise.all([
+      sdk.build({ extends: 2, overrides: [] }),
+      sdk.generateMedal('1011 0110 0001 1010', { mode: 'lite' }),
+    ])
+    assert.deepEqual(built.data, new Uint8Array(base))
+    assert.deepEqual(medal, expected)
+    assert.deepEqual(
+      await sdk.request({ op: 'generate_medal', bits: '1011011000011010', mode: 'lite' }),
+      expected,
+    )
+    await assert.rejects(sdk.generateMedal('bad'), /16桁/)
+    assert.deepEqual(await sdk.generateMedal('1011011000011010', { mode: 'lite' }), expected)
+    const core = await createCore(wasm)
+    assert.equal(typeof core.generateMedal, 'undefined')
+    assert.throws(
+      () => core.request({ op: 'generate_medal', bits: '0'.repeat(16) }),
+      /unknown operation/,
+    )
+  } finally {
+    await sdk.close()
+  }
+  await assert.rejects(sdk.generateMedal('0'.repeat(16)), /closed/)
+  await assert.rejects(sdk.request({ op: 'generate_medal', bits: '0'.repeat(16) }), /closed/)
+})
+
+test('SDK browser assets contain both independently instantiable WASM modules', async () => {
+  for (const name of ['yki-core.wasm', 'yki-3d.wasm']) {
+    const bytes = readFileSync(new URL(`../dist/browser/${name}`, import.meta.url))
+    assert.ok(await WebAssembly.validate(bytes))
+  }
+  const module = await WebAssembly.compile(
+    readFileSync(new URL('../dist/browser/yki-3d.wasm', import.meta.url)),
+  )
+  assert.deepEqual(WebAssembly.Module.imports(module), [])
 })

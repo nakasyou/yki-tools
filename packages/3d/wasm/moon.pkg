@@ -1,0 +1,20 @@
+import {
+  "nakasyou/yki-3d" @three_d,
+  "moonbitlang/core/json",
+  "moonbitlang/core/encoding/utf8",
+}
+
+options(
+  link: {
+    "wasm": {
+      "exports": [
+        "input_begin",
+        "input_write",
+        "invoke",
+        "output_length",
+        "output_read",
+      ],
+      "export-memory-name": "memory",
+    },
+  },
+)

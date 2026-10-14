@@ -8,9 +8,11 @@ export default defineConfig({
     format: ['esm'],
     sourcemap: true,
     alias: {
+      '@nakasyou/yki-3d': fileURLToPath(new URL('../3d/src/index.ts', import.meta.url)),
       '@nakasyou/yki-core': fileURLToPath(new URL('../yki-core/src/index.ts', import.meta.url)),
     },
-    deps: { alwaysBundle: ['@nakasyou/yki-core'] },
-    onSuccess: 'node ../yki-core/scripts/build.mjs && node scripts/prepare-browser.mjs',
+    deps: { alwaysBundle: ['@nakasyou/yki-core', '@nakasyou/yki-3d'] },
+    onSuccess:
+      'node ../yki-core/scripts/build.mjs && node ../3d/scripts/build.mjs && node scripts/prepare-browser.mjs',
   },
 })

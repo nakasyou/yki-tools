@@ -11,6 +11,7 @@ for (const name of ['g7221.mjs', 'g7221.wasm']) {
 }
 
 copyFileSync(join(root, '../yki-core/dist/yki-core.wasm'), join(target, 'yki-core.wasm'))
+copyFileSync(join(root, '../3d/dist/yki-3d.wasm'), join(target, 'yki-3d.wasm'))
 const ffmpeg = resolve(dirname(fileURLToPath(import.meta.resolve('@ffmpeg/core'))), '../esm')
 for (const name of ['ffmpeg-core.js', 'ffmpeg-core.wasm'])
   copyFileSync(join(ffmpeg, name), join(target, name))
