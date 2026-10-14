@@ -112,3 +112,9 @@ Raw codec APIs: encode_g7221(Bytes) / decode_g7221(Bytes). JavaScript: createG72
 Raw codec APIs: encode_g7221(Bytes) / decode_g7221(Bytes). JavaScript: createG7221(wasm), Core.encodeG7221(pcm), Core.decodeG7221(payload). No host is required.
 
 3D model generation lives in the independent [packages/3d](../3d/README.md) MoonBit/WASM package. The [SDK](../yki-sdk/README.md) binds both modules.
+
+## Embedded JSON data
+
+`data/schema.json`, `data/bump_confirmed_lookup.json`, and `data/bump_lookup_evidence.json` are tracked source files. `scripts/embed-data.mjs` validates their JSON and generates `data.mbt` before each WASM build. This build-time generator does not require a MoonBit macro extension. Runtime operations still use embedded strings and require no external files.
+
+Edit the JSON files, run `pnpm --dir packages/yki-core run generate:data`, and commit both the JSON and generated `data.mbt`. The generated file is tracked so direct `moon build` and `moon test` also work. `pnpm --dir packages/yki-core test` checks that it is current. The Python legacy CLI and peg research scripts read the same tracked lookup and evidence files instead of the ignored `research/data/` directory.

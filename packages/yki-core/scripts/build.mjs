@@ -2,6 +2,7 @@ import { spawnSync } from 'node:child_process'
 import { mkdirSync, copyFileSync } from 'node:fs'
 import { dirname, resolve, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import './embed-data.mjs'
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const result = spawnSync('moon', ['build', '--target', 'wasm', '--release'], {
   cwd: root,

@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).parent / "data"
-lookup = json.loads((ROOT / 'bump_confirmed_lookup.json').read_text())
+lookup = json.loads((Path(__file__).resolve().parents[1] / 'packages/yki-core/data/bump_confirmed_lookup.json').read_text())
 samples = [('85E', 313), ('85B', 313), ('E5B', 253), ('F58', 241)]
 constraints = []
 domains = {}

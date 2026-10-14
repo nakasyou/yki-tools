@@ -22,7 +22,8 @@
   "scripts": {
     "build": "vp pack && node scripts/build.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "moon test --target wasm && node --test tests/core.test.mjs tests/g7221.test.mjs",
-    "test:parity": "uv run --project ../custom-legacy python tests/parity.py"
+    "test": "node scripts/embed-data.mjs --check && moon test --target wasm && node --test tests/core.test.mjs tests/g7221.test.mjs tests/embed-data.test.mjs",
+    "test:parity": "uv run --project ../custom-legacy python tests/parity.py",
+    "generate:data": "node scripts/embed-data.mjs"
   }
 }

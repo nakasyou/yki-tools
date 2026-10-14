@@ -24,10 +24,10 @@ def decode(rows):
         raise ValueError('Terminal row must be 1010 or mirrored 0101')
     a, b, c, _ = map(lambda s: int(s, 2), rows)
     rail = f'{a:X}{b:X}{c:X}'
-    confirmed = json.loads((Path(__file__).parent / 'data/bump_confirmed_lookup.json').read_text())
+    confirmed = json.loads((Path(__file__).resolve().parents[1] / 'packages/yki-core/data/bump_confirmed_lookup.json').read_text())
     if rail in confirmed:
         result = {'rail_hex': rail, 'B_number': confirmed[rail], 'status': 'source-backed pair'}
-        evidence_path = (Path(__file__).parent / 'data/bump_lookup_evidence.json')
+        evidence_path = (Path(__file__).resolve().parents[1] / 'packages/yki-core/data/bump_lookup_evidence.json')
         evidence = json.loads(evidence_path.read_text()) if evidence_path.exists() else {}
         if rail in evidence:
             result['status'] = evidence[rail]['evidence_kind']

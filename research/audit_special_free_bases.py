@@ -6,7 +6,7 @@ Evidence consists of named-pattern/catalogue joins, not same-object photos.
 import itertools,json
 from pathlib import Path
 ROOT=Path(__file__).parent
-lookup=json.loads((ROOT/'bump_confirmed_lookup.json').read_text())
+lookup=json.loads((Path(__file__).resolve().parents[1] / 'packages/yki-core/data/bump_confirmed_lookup.json').read_text())
 fixed={n-241:int(code[2],16) for code,n in lookup.items() if code.startswith('F5')}
 assert len(fixed)==9
 symbols=set(range(1,16))-{5,10,15}
