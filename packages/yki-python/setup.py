@@ -13,7 +13,8 @@ class BuildWithWasm(build_py):
             if not (root / name).is_file():
                 raise RuntimeError(
                     "Missing WASM assets: run "
-                    "node packages/yki-python/scripts/build.mjs from the repository root"
+                    "node packages/yki-python/scripts/build.mjs "
+                    "from the repository root"
                 )
         super().run()
 
