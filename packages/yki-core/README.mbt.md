@@ -1,8 +1,8 @@
 # yki-core
 
-`custom-legacy/` の Python 実装を、再利用できる MoonBit ライブラリと WebAssembly に移植したものです。Python を実行せずに YKI を解析・編集・生成できます。元の JSON 設定形式と `build` / `validate` / `inspect` / `schema` を維持しています。
+A reusable MoonBit library and WebAssembly port of the Python implementation in `custom-legacy/`. Parse, edit, and generate YKI without running Python. The original JSON configuration format and `build` / `validate` / `inspect` / `schema` operations are preserved.
 
-ファイル読み込み・FFmpeg は **ホスト API** に分離しています。YKI 用の 16 kHz / 16 kbps コーデックは [g7221](g7221/README.md) に MoonBit で実装し、同じ WASM に内蔵しています。C コンパイラ・Emscripten・外部コーデックは不要です。MoonBit 側がスキーマ検証、ID 解決、編集、新規行・タイプ変換、コピーオンライト、LED 生成、PCM フレーム調整、音量マッチングの探索、AU ヘッダー・ビット反転、リソース再配置、SHA-256・チェックサムを担当します。ホストを差し替えてブラウザーや別アプリから利用できます。
+File loading and FFmpeg are separated into a **host API**. The 16 kHz / 16 kbps YKI codec is implemented in MoonBit in [g7221](g7221/README.md) and bundled in the same WASM. No C compiler, Emscripten, or external codec is required. MoonBit handles schema validation, ID resolution, editing, new rows and type conversion, copy-on-write, LED generation, PCM frame alignment, volume matching, AU headers and bit reversal, resource relocation, SHA-256, and checksums. Replace the host to use the library in browsers or other applications.
 
 ## Build and CLI
 
@@ -19,7 +19,7 @@ Core output: `packages/yki-core/dist/yki-core.wasm`. Vite+ Pack bundles JavaScri
 
 The Node host uses native FFmpeg for media conversion and loudness measurement. Set FFMPEG to override the executable. Encoding and decoding run inside MoonBit.
 
-## JavaScript / TypeScript から再利用
+## JavaScript / TypeScript usage
 
 ```js
 import { readFileSync } from 'node:fs'
@@ -36,13 +36,13 @@ try {
     extends: 2,
     overrides: [{ id: 'E7BA', songSound: { builtin: 107 }, led: { resource: 5, repeat: 12 } }],
   })
-  // data: Uint8Array; manifest: 再配置後のリソース番号・音声測定値・警告など
+  // data: Uint8Array; manifest: relocated resource IDs, audio measurements, warnings, etc.
 } finally {
   adapter.close()
 }
 ```
 
-ブラウザーでは Node ホストを使わず、同期コールバックで必要なファイルを供給します。音声ファイルを変更しないビルドでは `read` のみで十分です。
+In browsers, supply files through synchronous callbacks instead of using the Node host. Builds without audio conversion only require `read`.
 
 ```js
 import { createCore, toHex } from '@nakasyou/yki-core'
@@ -57,41 +57,41 @@ const core = await createCore(wasm, {
 const result = core.build({ extends: 'base.yki', version: 0, overrides: [] })
 ```
 
-インスタンスごとに独立した状態を持ちます。1つのインスタンスへの再帰呼び出しは拒否されます。非同期のファイルやメディアは事前に取得するか、Worker 内で同期ホストを用意してください。JS の型定義は `js/index.d.mts` にあります。
+Each instance has independent state. Recursive calls on the same instance are rejected. Load asynchronous files and media ahead of time, or provide a synchronous host inside a Worker. JavaScript type declarations are in `js/index.d.mts`.
 
 ## TypeScript SDK
 
 The asynchronous SDK lives in [../yki-sdk](../yki-sdk/README.md). The CLI lives in [../../apps/cli](../../apps/cli/README.md).
 
-## MoonBit の公開 API
+## Public MoonBit API
 
-モジュール名は `nakasyou/yki-core`。公開インターフェースは `pkg.generated.mbti` に生成します。
+The module is `nakasyou/yki-core`. Its public interface is generated in `pkg.generated.mbti`.
 
-- `parse(Bytes) -> Image` / `Image::serialize() -> Bytes`：解析と再構築。行・リソースの編集に安定したハンドルを使います。
-- `build(Json, Host, strict?) -> BuildResult`：生成バイナリ・マニフェスト・警告。
+- `parse(Bytes) -> Image` / `Image::serialize() -> Bytes`: parsing and reconstruction, with stable handles for row and resource edits.
+- `build(Json, Host, strict?) -> BuildResult`: generated binary, manifest, and warnings.
 - `validate(Json, Host, strict?)` / `inspect(Bytes)` / `schema()`。
-- `resolve_id(Json, Image, warn, strict?)`：B 番号、凸パターン、音声参照の解決。
+- `resolve_id(Json, Image, warn, strict?)`: resolve B numbers, peg patterns, and sound references.
 - `led_frames(Json, Host)` / `encode_audio(...)` / `decode_audio(...)` / `make_au(Bytes)` / `reverse_bits(Bytes)` / `sha256(Bytes)`。
-- `request(Json, Host)`：WASM と共通の JSON API。
+- `request(Json, Host)`: the JSON API shared with WASM.
 
-入力エラーは `YkiError` として返します。公開 `Image` を直接編集するときも、`serialize()` は参照・フォーマットを検証します。
+Input errors are returned as `YkiError`. When editing a public `Image` directly, `serialize()` still validates references and format.
 
-## ホスト API と WASM ABI
+## Host API and WASM ABI
 
-`Host` は `(Json) -> Json raise YkiError`。JSON 中のバイナリは小文字 hex です。エラーは例外または `{ "error": "message" }`。
+`Host` is `(Json) -> Json raise YkiError`. Binary data in JSON uses lowercase hex. Errors are exceptions or `{ "error": "message" }`.
 
-| op          | 入力             | 結果                                                       |
-| ----------- | ---------------- | ---------------------------------------------------------- |
-| `read`      | `path`           | `{hex}`：ファイル内容。数値 extends は `@stock/VerN_U.yki` |
-| `transcode` | `path`           | `{hex}`：モノラル 16 kHz s16le PCM                         |
-| `gain`      | `hex`, `gain`    | `{hex}`：PCM に指定のゲインを適用                          |
-| `measure`   | `hex`：s16le PCM | `{lufs, true_peak_dbtp, lra}`：非有限値は null             |
+| op          | Input            | Result                                                           |
+| ----------- | ---------------- | ---------------------------------------------------------------- |
+| `read`      | `path`           | `{hex}`: file contents. Numeric extends uses `@stock/VerN_U.yki` |
+| `transcode` | `path`           | `{hex}`: mono 16 kHz s16le PCM                                   |
+| `gain`      | `hex`, `gain`    | `{hex}`: apply the specified gain to PCM                         |
+| `measure`   | `hex`: s16le PCM | `{lufs, true_peak_dbtp, lra}`: non-finite values are null        |
 
-ゲイン処理・LUFS 測定を別実装に差し替えると、その実装の丸めや測定特性で音声出力が変わることがあります。標準 Node ホストでは元の FFmpeg / コーデックと同じコマンドを使います。
+Replacing gain or LUFS implementations can change audio output due to rounding or measurement differences. The standard Node host uses the same commands as the original FFmpeg / codec implementation.
 
-JS アダプターを使わないホストでは、UTF-8 JSON を `input_begin(length)` と `input_write(offset, word)` に渡して `invoke()` を実行します。`output_length()` / `output_read(offset)` から応答を取得します。word は4バイトの little-endian で、最後の端数は切り捨てます。`invoke()` は成功0・エラー1。ホスト RPC の際は `host_request_length/read` を読み、応答を `host_response_begin/write` に書き込んで0を返します。入力上限は256 MB。大きいメディアでは hex によるメモリー増加を考慮してください。
+Hosts without the JavaScript adapter send UTF-8 JSON through `input_begin(length)` and `input_write(offset, word)`, then call `invoke()`. Read responses through `output_length()` / `output_read(offset)`. Each word is four bytes in little-endian order; only bytes within the declared length are used. `invoke()` returns 0 on success and 1 on error. During host RPC, read `host_request_length/read`, write the response through `host_response_begin/write`, and return 0. The input limit is 256 MB. Account for hex encoding overhead with large media.
 
-## 検証
+## Validation
 
 ```sh
 pnpm run build
@@ -99,13 +99,13 @@ pnpm test
 pnpm run test:parity
 ```
 
-MoonBit のユニットテストと、合成 YKI を使う Node / WASM の統合テストを含みます。元 YKI が手元にあれば全6種類のバイト一致も検証します。
+Tests include MoonBit unit tests and Node / WASM integration tests using synthetic YKI files. If original YKI files are available, byte equality is also checked for all six versions.
 
-`test:parity` のみ比較用に `custom-legacy` の Python 環境を使用します。標準 Node ホストで21ケースを比較し、全6種類の無変更再構築、Ver.0、ID 解決、LED 繰り返し、新規メダル、タイプ変更、逐次編集、MP3 の trim/pad と preserve/peak/match が、元の生成バイナリと主要マニフェスト項目で一致することを確認しました。
+Only `test:parity` uses the Python environment in `custom-legacy` for comparison. The standard Node host was compared across 21 cases: unchanged reconstruction of all six versions, Ver.0, ID resolution, LED repeats, new medals, type changes, sequential edits, and MP3 trim/pad with preserve/peak/match. Generated bytes and major manifest fields matched the original implementation.
 
-## データと実機上の意味
+## Data and hardware interpretation
 
-スキーマ・既存の凸パターン対応表・根拠は `data.mbt` に組み込んでおり、実行時に `custom-legacy` や `research` の Python コードを読みません。対応表には従来どおり high / medium / low の確度があり、strict は medium / low を拒否します。物理認識・LED の RGB 順序と周期・ファームウェア更新判定は既存の未検証事項を引き継ぎます。この移植の生成結果について新たな実機検証は行っていません。
+The schema, existing peg lookup table, and evidence are embedded in `data.mbt`; runtime operations do not read Python code from `custom-legacy` or `research`. Mappings retain high / medium / low confidence, and strict mode rejects medium / low confidence. Physical recognition, LED RGB order and timing, and firmware update decisions remain unverified as before. No new hardware validation has been performed for output from this port.
 
 Raw codec APIs: encode_g7221(Bytes) / decode_g7221(Bytes). JavaScript: createG7221(wasm), Core.encodeG7221(pcm), Core.decodeG7221(payload). No host is required.
 

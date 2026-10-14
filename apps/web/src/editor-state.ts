@@ -50,7 +50,7 @@ export function createEditor() {
   const binaryAreas = track<BinaryRegion[]>([])
   const binaryInspection = track<Inspection | null>(null)
   let binaryMapping: Record<string, number> = {}
-  const binaryFocus = track<BinaryRange>({ offset: 0, length: 512, label: 'ヘッダー' })
+  const binaryFocus = track<BinaryRange>({ offset: 0, length: 512, label: 'Header' })
   const detail = track<'header' | 'medal'>('medal')
   type FocusTarget =
     | { kind: 'header' }
@@ -64,14 +64,14 @@ export function createEditor() {
     const inspection = binaryInspection.value
     const target = focusTarget
     if (target.kind === 'header') {
-      binaryFocus.value = { offset: 0, length: 512, label: 'ヘッダー' }
+      binaryFocus.value = { offset: 0, length: 512, label: 'Header' }
       return
     }
     if (target.kind === 'version') {
       binaryFocus.value = {
         offset: (binaryOffsets.value[0] ?? 0) + 44,
         length: 4,
-        label: 'バージョン',
+        label: 'Version',
       }
       return
     }
@@ -96,8 +96,8 @@ export function createEditor() {
       return
     }
     if (target.kind === 'led') {
-      if (!resourceRange(ledResource(medal, inspection.resources), 'LED パターン'))
-        binaryFocus.value = { offset: rowOffset, length: 36, label: 'LED パターン' }
+      if (!resourceRange(ledResource(medal, inspection.resources), 'LED pattern'))
+        binaryFocus.value = { offset: rowOffset, length: 36, label: 'LED pattern' }
       return
     }
     const pair = audioPair(medal, inspection.resources, target.field)
@@ -302,7 +302,7 @@ export function createEditor() {
   const loadBase = async (file: File) => {
     busy.value = true
     error.value = ''
-    notify('YKI のチェックサムとリソースを解析中…', true)
+    notify('Analyzing YKI checksums and resources…', true)
     try {
       const bytes = await file.arrayBuffer()
       const offsets = await resourceOffsets(file)
@@ -325,11 +325,7 @@ export function createEditor() {
       binaryOffsets.value = offsets
       binaryAreas.value = binaryRegions(offsets, inspection.resources, file.size)
       focusMedal()
-      notify(
-        `${
-          inspection.rows.filter((row) => row.active).length
-        } 枚の登録済みメダルを読み込みました。`,
-      )
+      notify(`${inspection.rows.filter((row) => row.active).length} registered medals loaded.`)
     } catch (cause) {
       fail(cause)
     } finally {
@@ -347,13 +343,13 @@ export function createEditor() {
       return
     }
     busy.value = true
-    notify('元の音声をデコード中…', true)
+    notify('Decoding the original sound…', true)
     try {
       const pcm = await call<Uint8Array>('preview', { resource: pair[1] })
       if (previewURL) URL.revokeObjectURL(previewURL)
       previewURL = URL.createObjectURL(new Blob([wav(pcm)], { type: 'audio/wav' }))
       preview.value = previewURL
-      notify('元の音声を試聴できます。')
+      notify('The original sound is ready to preview.')
     } catch (cause) {
       fail(cause)
     } finally {
@@ -383,7 +379,7 @@ export function createEditor() {
         manifest: null,
       }
       if (edits[0]) selected.value = idRow(edits[0].id)!
-      notify(`${edits.length} 件の編集を読み込みました。基底は現在の YKI を使用します。`)
+      notify(`${edits.length} edits loaded. Using the current YKI as the base.`)
       jsonDraft.value = configJSON(project.value)
     } catch (cause) {
       fail(cause)
@@ -394,14 +390,14 @@ export function createEditor() {
   const build = async () => {
     busy.value = true
     error.value = ''
-    notify('音声の変換・YKI の生成中… 初回は音声エンジンも読み込みます。', true)
+    notify('Converting audio and building YKI… The audio engine loads on first use.', true)
     try {
       if (!project.value.outputName.toLowerCase().endsWith('.yki'))
-        throw new Error('出力ファイル名は .yki にしてください。')
+        throw new Error('The output filename must end in .yki.')
       const result = await ensureBinary()
       project.value = { ...project.value, manifest: result.manifest }
       download(await result.file.arrayBuffer(), project.value.outputName)
-      notify('YKI を生成しました。元のファイルは変更されません。')
+      notify('YKI generated. The original file remains unchanged.')
       return true
     } catch (cause) {
       fail(cause)
@@ -435,7 +431,7 @@ export function createEditor() {
         repeat: (rowOverride(project.value, selected.value).led as { repeat?: number }).repeat ?? 1,
       })
       error.value = ''
-      notify('LED フレームを反映しました。')
+      notify('LED frames applied.')
     } catch (cause) {
       fail(cause)
     }

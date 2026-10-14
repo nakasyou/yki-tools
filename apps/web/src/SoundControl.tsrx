@@ -37,9 +37,9 @@ export function SoundControl(props: Props) @{
         class="text-[11px] text-[#707763] hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
         disabled={props.disabled.value || !canPreview()}
         onClick={() => props.onPreview(props.field)}
-        aria-label={`${props.label} の継承音声を試聴`}
+        aria-label={`${props.label} inherited sound preview`}
       >
-        {canPreview() ? '▷ 元の音声' : 'original sound is empty'}
+        {canPreview() ? '▷ Original sound' : 'original sound is empty'}
       </button>
     </div>
     <select
@@ -66,13 +66,13 @@ export function SoundControl(props: Props) @{
                   : '',
         )
       }}
-      aria-label={`${props.label} のソース`}
+      aria-label={`${props.label} source`}
     >
-      <option value="inherit">元の設定を継承</option>
-      <option value="file">音声ファイル</option>
-      <option value="builtin">内蔵サウンド</option>
-      <option value="resource">既存の音声リソース</option>
-      <option value="none">なし / クリア</option>
+      <option value="inherit">Inherit original settings</option>
+      <option value="file">Audio file</option>
+      <option value="builtin">Built-in sound</option>
+      <option value="resource">Existing audio resource</option>
+      <option value="none">None / clear</option>
     </select>
     @if (
       soundMode(
@@ -86,7 +86,7 @@ export function SoundControl(props: Props) @{
           accept="audio/*"
           class="block w-full text-xs file:mr-3 file:rounded-md file:border-0 file:bg-[#eef3e5] file:px-3 file:py-2"
           disabled={props.disabled.value}
-          aria-label={`${props.label} の音声ファイル`}
+          aria-label={`${props.label} audio file`}
           onChange={(event: Event) => {
             const file = (event.target as HTMLInputElement).files?.[0]
             if (file) props.onFile(file)
@@ -101,8 +101,8 @@ export function SoundControl(props: Props) @{
             ? String(
               rowOverride(props.project.value, props.row.value)[props.field],
             ) ||
-              'ファイルを選択してください'
-            : '音声ファイルを使用'}
+              'Choose a file'
+            : 'Use an audio file'}
         </p>
       </div>
     }
@@ -113,7 +113,7 @@ export function SoundControl(props: Props) @{
         'builtin'
     ) {
       <label class="mt-3 block">
-        <span class="label">内蔵サウンド ID</span>
+        <span class="label">Built-in sound ID</span>
         <input
           class="field mono"
           type="number"
@@ -139,7 +139,7 @@ export function SoundControl(props: Props) @{
         'resource'
     ) {
       <label class="mt-3 block">
-        <span class="label">音声リソース</span>
+        <span class="label">Audio resource</span>
         <select
           class="field mono"
           disabled={props.disabled.value}
@@ -158,12 +158,12 @@ export function SoundControl(props: Props) @{
           )) {
             <option
               value={resource.id}
-            >{`#${resource.id} · ${resource.duration!.toFixed(2)} 秒`}</option>
+            >{`#${resource.id} · ${resource.duration!.toFixed(2)} s`}</option>
           }
         </select>
       </label>
     }
-    <p class="mt-3 text-[10px] text-[#858b7b]">{`継承: ${inheritedLabel(
+    <p class="mt-3 text-[10px] text-[#858b7b]">{`Inherited: ${inheritedLabel(
       props.project.value.inspection!.rows[props.row.value - 1],
       props.project.value.inspection!.resources,
       props.field,

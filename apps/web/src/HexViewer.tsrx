@@ -37,8 +37,8 @@ export function HexViewer(props: Props) @{
     const region = area(offset)
     const label =
       region?.kind === 'medal_table'
-        ? `メダル情報 · B${Math.floor((offset - region.offset) / 36) + 1}`
-        : region?.label ?? '未分類'
+        ? `Medal table · B${Math.floor((offset - region.offset) / 36) + 1}`
+        : region?.label ?? 'Unclassified'
     return `${label} · 0x${hexOffset(offset)}`
   }
   effect(() => {
@@ -53,8 +53,7 @@ export function HexViewer(props: Props) @{
     ).arrayBuffer().then((buffer) => {
       if (current === generation) bytes.value = new Uint8Array(buffer)
     }).catch(() => {
-      if (current === generation) readError.value =
-        'バイナリを読み込めませんでした。'
+      if (current === generation) readError.value = 'Unable to load the binary.'
     })
     return () => {
       generation++
@@ -79,10 +78,10 @@ export function HexViewer(props: Props) @{
     const range = props.focus.value
     if (file) void untrack(() => move(range.offset))
   })
-  <section class="panel min-w-0 overflow-hidden" aria-label="バイナリ">
+  <section class="panel min-w-0 overflow-hidden" aria-label="Binary">
     <div class="border-b border-[#e9ebdf] p-4">
       <h2 class="text-xs font-bold">
-        バイナリ
+        Binary
         <span class="font-normal text-[#8a927e]">READ ONLY</span>
       </h2>
       <p
@@ -92,14 +91,14 @@ export function HexViewer(props: Props) @{
       )}`}</p>
       @if (props.updating.value) {
         <p class="mt-2 text-xs text-[#8a927e]" role="status">
-          編集内容を反映中…
+          Applying edits…
         </p>
       }
       @if (props.error.value) {
         <p
           class="mt-2 text-xs text-[#ab5c44]"
           role="alert"
-        >{`編集内容は未反映: ${props.error.value}`}</p>
+        >{`Edits have not been applied: ${props.error.value}`}</p>
       }
       <form
         class="mt-3 flex gap-2"
@@ -111,7 +110,7 @@ export function HexViewer(props: Props) @{
       >
         <input
           class="field mono min-w-0"
-          aria-label="16進オフセット"
+          aria-label="Hex offset"
           placeholder="00000000"
           value={jump.value}
           disabled={!props.file.value}
@@ -122,16 +121,16 @@ export function HexViewer(props: Props) @{
         <button
           class="btn shrink-0 whitespace-nowrap"
           disabled={!props.file.value}
-        >移動</button>
+        >Go</button>
       </form>
       <div
         class="mt-3 flex flex-wrap gap-2 text-[10px]"
-        aria-label="バイナリの色分け凡例"
+        aria-label="Binary color legend"
       >
         @for (const kind of Object.keys(binaryKinds) as BinaryKind[]) {
           <span class={`hex-legend hex-${kind}`}>{binaryKinds[kind]}</span>
         }
-        <span class="hex-legend hex-selected">選択範囲</span>
+        <span class="hex-legend hex-selected">Selection</span>
       </div>
     </div>
     @if (props.file.value) {
@@ -143,9 +142,9 @@ export function HexViewer(props: Props) @{
           <div
             id="hex-viewport"
             class="relative overflow-y-auto"
-            style="height: 672px; min-width: 440px"
+            style="height: 672px; min-width: 440px; overflow-anchor: none"
             tabindex="0"
-            aria-label="読み取り専用16進ビュー"
+            aria-label="Read-only hex view"
             onKeyDown={(event: KeyboardEvent) => {
               if (event.key === 'End' || event.key === 'Home') {
                 event.preventDefault()
@@ -154,7 +153,7 @@ export function HexViewer(props: Props) @{
             }}
             onScroll={(event: Event) => {
               const element = event.currentTarget as HTMLElement
-              if (moving && Math.abs(element.scrollTop - top()) <= 1) return
+              if (moving) return
               moving = false
               moveRevision++
               const available = Math.max(0, height() - visibleRows * rowHeight)
@@ -210,7 +209,7 @@ export function HexViewer(props: Props) @{
         >{`${props.file.value.size.toLocaleString()} bytes · READ ONLY`}</p>
       </>
     } @else {
-      <p class="p-6 text-xs text-[#8a927e]">YKI を開くと表示されます。</p>
+      <p class="p-6 text-xs text-[#8a927e]">Open a YKI file to view this.</p>
     }
   </section>
 }

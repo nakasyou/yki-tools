@@ -47,20 +47,20 @@ def atomic_write(path, data):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="JSONから妖怪ウォッチUのykiを生成")
+    ap = argparse.ArgumentParser(description="Generate Yo-kai Watch U YKI files from JSON")
     commands = ap.add_subparsers(dest="command",required=True)
-    b = commands.add_parser("build",help="JSONを読み、音声をエンコードしてykiを生成")
+    b = commands.add_parser("build",help="Read JSON, encode audio, and generate YKI")
     b.add_argument("config",type=Path)
     b.add_argument("-o","--output",type=Path)
     b.add_argument("--strict-mapping",action="store_true")
-    b.add_argument("--base-dir",type=Path,help="相対パスの基準（通常はJSONのあるフォルダー、標準入力では現在のフォルダー）")
-    v = commands.add_parser("validate",help="JSONスキーマ、基底yki、ID、入力ファイルを検査（エンコードはしない）")
+    b.add_argument("--base-dir",type=Path,help="Base directory for relative paths (the JSON directory, or the current directory for stdin)")
+    v = commands.add_parser("validate",help="Check the JSON schema, base YKI, IDs, and input files without encoding")
     v.add_argument("config",type=Path)
     v.add_argument("--strict-mapping",action="store_true")
     v.add_argument("--base-dir",type=Path)
-    i = commands.add_parser("inspect",help="ykiの数量・バージョン読み上げ値を表示")
+    i = commands.add_parser("inspect",help="Show YKI counts and spoken version")
     i.add_argument("file",type=Path)
-    commands.add_parser("schema",help="JSON Schemaを標準出力へ表示")
+    commands.add_parser("schema",help="Print the JSON Schema to stdout")
     args = ap.parse_args()
     warnings = []
 
