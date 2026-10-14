@@ -41,3 +41,6 @@ _build/
 test-results/
 playwright-report/
 /apps/web/public/engine/
+
+# Generated WASM bundled in Python SDK wheels.
+/packages/yki-python/yki_sdk/wasm/

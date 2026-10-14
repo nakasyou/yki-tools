@@ -1,0 +1,48 @@
+name: Python WASM SDK
+
+on:
+  pull_request:
+    paths:
+      - 'packages/yki-python/**'
+      - 'packages/yki-core/**'
+      - 'packages/3d/**'
+      - '.github/workflows/python-sdk.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'packages/yki-python/**'
+      - 'packages/yki-core/**'
+      - 'packages/3d/**'
+      - '.github/workflows/python-sdk.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Set up MoonBit and FFmpeg
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+      - name: Build and install the wheel
+        run: |
+          node packages/yki-python/scripts/build.mjs
+          python -m pip install build
+          python -m build packages/yki-python --outdir work/wheels
+          python -m pip install work/wheels/*.whl
+      - name: Test the installed SDK
+        run: python -m unittest discover -s packages/yki-python/tests -v
