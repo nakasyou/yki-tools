@@ -1,11 +1,11 @@
 # Generate Yo-kai Medals from Bit Patterns
 
-Generate OpenSCAD models with the MoonBit/WASM core. Node.js handles file output and invokes OpenSCAD for STL conversion.
+Generate OpenSCAD models with the independent MoonBit/WASM 3D module. Node.js handles file output and invokes OpenSCAD for STL conversion.
 
-Build the core once before generating a medal:
+Build the 3D module once before generating a medal:
 
 ```bash
-pnpm --dir packages/yki-core run build
+pnpm --dir packages/3d run build
 ```
 
 ```bash
@@ -20,11 +20,11 @@ STL output has been verified in this environment using Nix.
 
 There are three modes: `--mode normal` (default), `--mode classic`, and `--mode lite`.
 
-| Mode | Geometry |
-| --- | --- |
-| `classic` | Traditional full model with a disc, lettering, rim, and front square features |
-| `normal` | Classic model without rear lettering or front square features; retains the rim and circular recess |
-| `lite` | Open frame retaining the guides, four crossbars, and curved ends |
+| Mode      | Geometry                                                                                           |
+| --------- | -------------------------------------------------------------------------------------------------- |
+| `classic` | Traditional full model with a disc, lettering, rim, and front square features                      |
+| `normal`  | Classic model without rear lettering or front square features; retains the rim and circular recess |
+| `lite`    | Open frame retaining the guides, four crossbars, and curved ends                                   |
 
 ```bash
 nix shell nixpkgs#openscad -c pnpm medal \
@@ -82,8 +82,19 @@ Source: [Classical Yo-kai Medal](https://www.thingiverse.com/thing:1615579) by p
 
 The earlier English model at `third_party/models/YokaiWatchMedal.scad` is retained for reference and is not used for generation.
 
-## MoonBit API
+## MoonBit / JavaScript API
 
-`core.generateMedal(bits, { mode, orientation, mirror })` returns `{ source, rows, mode, filename }` without filesystem or process capabilities. The same API runs in Node and browsers. The OpenSCAD template is embedded in WASM at build time by `packages/yki-core/scripts/medal-template.mjs`; edit the attributed template and rebuild to update the geometry.
+The MoonBit module is `nakasyou/yki-3d`, with `generate_medal` and `request` entrypoints. It builds `dist/yki-3d.wasm` independently of yki-core and requires no host imports. Its JavaScript binding is `@nakasyou/yki-3d`:
+
+```js
+import { create3D } from '@nakasyou/yki-3d'
+const wasm = await (await fetch('/yki-3d.wasm')).arrayBuffer()
+const threeD = await create3D(wasm)
+const medal = threeD.generateMedal('1011 0110 0001 1010', { mode: 'lite' })
+```
+
+The WASM is exported as `@nakasyou/yki-3d/wasm`. Run `pnpm --dir packages/3d test` for model parity, validation, and CLI tests.
+
+`threeD.generateMedal(bits, { mode, orientation, mirror })` returns `{ source, rows, mode, filename }` without filesystem or process capabilities. The same API runs in Node and browsers. The OpenSCAD template is embedded in WASM at build time by `packages/3d/scripts/medal-template.mjs`; edit the attributed template and rebuild to update the geometry.
 
 The separate `portrait_relief/` image/depth experiments still use Python and their existing dependencies.

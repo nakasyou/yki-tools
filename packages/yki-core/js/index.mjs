@@ -85,7 +85,6 @@ export async function createCore(wasm, { host } = {}) {
   }
   return {
     request,
-    generateMedal: (bits, options = {}) => request({ ...options, op: 'generate_medal', bits }),
     encodeG7221: (pcm) => fromHex(request({ op: 'g7221_encode', hex: toHex(pcm) }).hex),
     decodeG7221: (payload) => fromHex(request({ op: 'g7221_decode', hex: toHex(payload) }).hex),
     schema: () => request({ op: 'schema' }),

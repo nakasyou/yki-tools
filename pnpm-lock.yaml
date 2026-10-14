@@ -222,6 +222,8 @@ importers:
         specifier: 4.3.3
         version: 4.3.3
 
+  packages/3d: {}
+
   packages/yki-core: {}
 
   packages/yki-sdk:
@@ -233,6 +235,9 @@ importers:
       '@ffmpeg/core':
         specifier: 0.12.10
         version: 0.12.10
+      '@nakasyou/yki-3d':
+        specifier: workspace:*
+        version: link:../3d
       '@nakasyou/yki-core':
         specifier: workspace:*
         version: link:../yki-core

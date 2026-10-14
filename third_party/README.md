@@ -10,7 +10,7 @@ Local scripts and third-party works are kept separate by provenance. The followi
 
 ## Published Template Attribution
 
-`../packages/3d-generator/templates/classical-yo-kai-medal.scad` is a modified version of paulliu's [Classical Yo-kai Medal](https://www.thingiverse.com/thing:1615579). The downloaded ZIP's `LICENSE.txt` states Creative Commons Public Domain Dedication. The modifications add normal/classic/lite mode selection and base and guide thickness adjustments to the original code definitions and geometry. This is a modified template, not the unmodified original file.
+`../packages/3d/templates/classical-yo-kai-medal.scad` is a modified version of paulliu's [Classical Yo-kai Medal](https://www.thingiverse.com/thing:1615579). The downloaded ZIP's `LICENSE.txt` states Creative Commons Public Domain Dedication. The modifications add normal/classic/lite mode selection and base and guide thickness adjustments to the original code definitions and geometry. This is a modified template, not the unmodified original file.
 
 `models/YokaiWatchMedal.scad` is a reference model from Herrigold's [Yokai Watch Medal Builder](https://www.thingiverse.com/thing:2509265). Its existing header states Creative Commons Attribution. It is not used for generation and is excluded as a local reference.
 

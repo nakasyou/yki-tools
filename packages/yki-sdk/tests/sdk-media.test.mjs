@@ -94,6 +94,7 @@ function baseWithReference() {
 const base = baseWithReference()
 const input = wav(pcm(320 * 60 + 123))
 const sdk = await createYkiSDK({
+  wasm3d: readFileSync(new URL('../../3d/dist/yki-3d.wasm', import.meta.url)),
   wasm: readFileSync(new URL('../../yki-core/dist/yki-core.wasm', import.meta.url)),
   ffmpeg,
 

@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "nakasyou/yki-3d"
+
+// Values
+pub fn generate_medal(String, mode? : String, orientation? : String, mirror? : Bool) -> Json raise ThreeDError
+
+pub fn request(Json) -> Json raise ThreeDError
+
+// Errors
+pub suberror ThreeDError {
+  ThreeDError(String)
+}
+
+// Types and methods
+
+// Type aliases
+
+// Traits

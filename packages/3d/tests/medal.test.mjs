@@ -5,14 +5,14 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
-import { createCore } from '../js/index.mjs'
+import { create3D } from '../js/index.mjs'
 
-const core = await createCore(readFileSync(new URL('../dist/yki-core.wasm', import.meta.url)))
+const core = await create3D(readFileSync(new URL('../dist/yki-3d.wasm', import.meta.url)))
 const template = readFileSync(
-  new URL('../../3d-generator/templates/classical-yo-kai-medal.scad', import.meta.url),
+  new URL('../templates/classical-yo-kai-medal.scad', import.meta.url),
   'utf8',
 )
-const cli = fileURLToPath(new URL('../../3d-generator/generate_medal.mjs', import.meta.url))
+const cli = fileURLToPath(new URL('../generate_medal.mjs', import.meta.url))
 
 test('all modes and orientations preserve the complete original model', () => {
   for (const mode of ['normal', 'classic', 'lite']) {

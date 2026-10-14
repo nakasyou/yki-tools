@@ -1,6 +1,6 @@
 # @nakasyou/yki-sdk
 
-Promise-based TypeScript SDK for Yo-kai Watch YKI editing and browser audio conversion. The package bundles the portable MoonBit core JavaScript and types, its WASM codec, and the single-threaded FFmpeg browser assets. It has no runtime dependency on the private `@nakasyou/yki-core` workspace package.
+Promise-based TypeScript SDK for Yo-kai Watch YKI editing, browser audio conversion, and 3D medal generation. The package bundles the portable MoonBit core and 3D JavaScript bindings, types, both WASM modules, and the single-threaded FFmpeg browser assets. It has no runtime dependency on the private `@nakasyou/yki-core` or `@nakasyou/yki-3d` workspace packages.
 
 ## Installation
 
@@ -8,7 +8,7 @@ Promise-based TypeScript SDK for Yo-kai Watch YKI editing and browser audio conv
 pnpm add @nakasyou/yki-sdk
 ```
 
-Bundle the SDK with Vite or another browser bundler that supports `@ffmpeg/ffmpeg` workers. Copy the files in `node_modules/@nakasyou/yki-sdk/dist/browser/` to your application's static asset directory (for example `/assets/yki/`). This directory contains `yki-core.wasm`, `ffmpeg-core.js`, and `ffmpeg-core.wasm`. The WASM is also exported as `@nakasyou/yki-sdk/wasm`; browser assets are exported under `@nakasyou/yki-sdk/browser/*`.
+Bundle the SDK with Vite or another browser bundler that supports `@ffmpeg/ffmpeg` workers. Copy the files in `node_modules/@nakasyou/yki-sdk/dist/browser/` to your application's static asset directory (for example `/assets/yki/`). This directory contains `yki-core.wasm`, `yki-3d.wasm`, `ffmpeg-core.js`, and `ffmpeg-core.wasm`. The WASM modules are also exported as `@nakasyou/yki-sdk/wasm` and `@nakasyou/yki-sdk/wasm3d`; browser assets are exported under `@nakasyou/yki-sdk/browser/*`.
 
 ```ts
 import { createYkiSDK, filesLoader } from '@nakasyou/yki-sdk'
@@ -16,6 +16,7 @@ import { createYkiSDK, filesLoader } from '@nakasyou/yki-sdk'
 const assets = new URL('/assets/yki/', location.href)
 const sdk = await createYkiSDK({
   wasm: await (await fetch(new URL('yki-core.wasm', assets))).arrayBuffer(),
+  wasm3d: await (await fetch(new URL('yki-3d.wasm', assets))).arrayBuffer(),
   ffmpegLoad: {
     coreURL: new URL('ffmpeg-core.js', assets).href,
     wasmURL: new URL('ffmpeg-core.wasm', assets).href,
@@ -36,11 +37,21 @@ try {
 
 See `examples/browser-sdk.ts` for a type-checked example. `filesLoader` accepts `File`, `Blob`, `Uint8Array`, and `ArrayBuffer`. Paths are exact logical keys; numeric `extends: 2` uses `@stock/Ver2_U.yki`. Implement relative path resolution in your own `readFile` callback when needed.
 
-The SDK exposes `build`, `validate`, `validateConfig`, `inspect`, `resolve`, `roundtrip`, `decode`, `schema`, `request`, and `close`. Operations return promises and are serialized within each instance. `close()` waits for pending work and terminates SDK-owned FFmpeg workers; borrowed FFmpeg instances remain alive and should not be used concurrently outside the SDK.
+The SDK exposes `build`, `validate`, `validateConfig`, `inspect`, `resolve`, `roundtrip`, `decode`, `schema`, `request`, `generateMedal`, and `close`. Operations return promises; YKI operations are serialized within each instance. `generateMedal(bits, options)` uses the independent 3D WASM and returns `{ source, rows, mode, filename }`. `request({ op: 'generate_medal', bits, ...options })` routes to the same module. `close()` waits for pending work and terminates SDK-owned FFmpeg workers; borrowed FFmpeg instances remain alive and should not be used concurrently outside the SDK.
 
 The async host replays synchronous WASM requests using cached host responses. Each FFmpeg operation runs once, but MoonBit computations may run repeatedly. Use a dedicated Worker for large files to keep the UI responsive. The supplied single-threaded FFmpeg core requires neither SharedArrayBuffer nor COOP/COEP. No native FFmpeg, Python, C compiler, or MoonBit installation is needed at runtime.
 
 `createG7221(wasm)` (also exported as `loadG7221`) provides the standalone MoonBit codec. The low-level async core exposes `encodeG7221` and `decodeG7221`.
+
+For model generation without FFmpeg or a YKI file, use the standalone binding:
+
+```ts
+import { create3D } from '@nakasyou/yki-sdk'
+const threeD = await create3D(await (await fetch(new URL('yki-3d.wasm', assets))).arrayBuffer())
+const medal = threeD.generateMedal('1011 0110 0001 1010', { mode: 'lite' })
+```
+
+Migration: `createYkiSDK` now requires `wasm3d` alongside `wasm`. The former `core.generateMedal` API moves to `create3D` or `sdk.generateMedal`. `MedalOptions` and `GeneratedMedal` are exported from the SDK and the 3D package.
 
 ## Development and local publication
 
@@ -55,7 +66,7 @@ pnpm --dir packages/yki-sdk run test
 pnpm --dir packages/yki-sdk run test:media
 ```
 
-From `packages/yki-sdk`, `pnpm exec vp pack` bundles all three entry points and their declarations, builds the MoonBit WASM, and prepares browser assets. `pnpm publish` builds, type-checks, and tests through `prepublishOnly`. Authenticate locally before publishing:
+From `packages/yki-sdk`, `pnpm exec vp pack` bundles all three entry points and their declarations, builds both MoonBit WASM modules, and prepares browser assets. `pnpm publish` builds, type-checks, and tests through `prepublishOnly`. Authenticate locally before publishing:
 
 ```sh
 cd packages/yki-sdk

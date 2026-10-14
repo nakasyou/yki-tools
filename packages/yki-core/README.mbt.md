@@ -17,12 +17,6 @@ pnpm run cli build packages/custom-legacy/examples/mogumogu.json -o outputs/cust
 
 Core output: `packages/yki-core/dist/yki-core.wasm`. Vite+ Pack bundles JavaScript and declarations. The CLI supports `build`, `validate`, `inspect`, `schema`, stdin, `--base-dir`, and `--strict-mapping`.
 
-## 3D medals
-
-`core.generateMedal('1011 0110 0001 1010', { mode: 'lite' })` returns OpenSCAD `source`, oriented `rows`, `mode`, and a default `filename`. Bit parsing, orientation and model generation run entirely in MoonBit without host calls. Options support `normal` / `classic` / `lite`, `canonical` / `physical`, and `mirror`.
-
-Run `pnpm medal <bits> -o medal.scad` from the repository root after building the core. For `.stl`, the Node adapter invokes OpenSCAD. See [the generator documentation](../3d-generator/README.md).
-
 The Node host uses native FFmpeg for media conversion and loudness measurement. Set FFMPEG to override the executable. Encoding and decoding run inside MoonBit.
 
 ## JavaScript / TypeScript から再利用
@@ -117,6 +111,4 @@ Raw codec APIs: encode_g7221(Bytes) / decode_g7221(Bytes). JavaScript: createG72
 
 Raw codec APIs: encode_g7221(Bytes) / decode_g7221(Bytes). JavaScript: createG7221(wasm), Core.encodeG7221(pcm), Core.decodeG7221(payload). No host is required.
 
-## 3D medal generation
-
-`generate_medal(bits, mode?, orientation?, mirror?)` produces OpenSCAD source using the bundled medal template. The JavaScript adapter exposes `core.generateMedal(bits, options)` and the JSON RPC operation is `generate_medal`. Bit parsing, row orientation and model generation run entirely in MoonBit, without host calls. Node file I/O and OpenSCAD rendering are handled by `packages/3d-generator/generate_medal.mjs`.
+3D model generation lives in the independent [packages/3d](../3d/README.md) MoonBit/WASM package. The [SDK](../yki-sdk/README.md) binds both modules.

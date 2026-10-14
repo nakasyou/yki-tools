@@ -8,6 +8,7 @@ export async function buildSong(base: File, song: File, assetsURL: URL) {
   if (!wasmResponse.ok) throw new Error(`YKI WASM load failed: ${wasmResponse.status}`)
   const sdk = await createYkiSDK({
     wasm: await wasmResponse.arrayBuffer(),
+    wasm3d: await (await fetch(new URL('yki-3d.wasm', assetsURL))).arrayBuffer(),
     ffmpegLoad: {
       coreURL: new URL('ffmpeg-core.js', assetsURL).href,
       wasmURL: new URL('ffmpeg-core.wasm', assetsURL).href,
