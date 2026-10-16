@@ -76,13 +76,13 @@ export function App() @{
         @if (project.value.inspection) {
           <div class="flex flex-wrap gap-2">
             <label class="btn cursor-pointer">
-              <span>インポート</span>
+              <span>Import</span>
               <input
                 class="sr-only"
                 type="file"
                 accept=".yki"
                 disabled={busy.value}
-                aria-label="YKI をインポート"
+                aria-label="Import YKI"
                 onChange={(event: Event) => {
                   const input = event.target as HTMLInputElement
                   const file = input.files?.[0]
@@ -101,15 +101,15 @@ export function App() @{
                 ) as HTMLDialogElement
                 dialog.showModal()
               }}
-            >エクスポート</button>
+            >Export</button>
             <label class="btn cursor-pointer">
-              <span>設定を読み込む</span>
+              <span>Load configuration</span>
               <input
                 class="sr-only"
                 type="file"
                 accept=".json"
                 disabled={busy.value || !project.value.inspection}
-                aria-label="JSON 設定を読み込む"
+                aria-label="Load JSON configuration"
                 onChange={async (event: Event) => {
                   const input = event.target as HTMLInputElement
                   const file = input.files?.[0]
@@ -128,18 +128,18 @@ export function App() @{
       @if (!project.value.inspection) {
         <section
           class="flex min-h-[calc(100dvh-140px)] items-center justify-center"
-          aria-label="YKI 読み込み"
+          aria-label="YKI loading"
         >
           <div class="text-center">
-            <h2 class="mb-3 text-lg font-semibold">YKI ファイルを読み込む</h2>
+            <h2 class="mb-3 text-lg font-semibold">Load a YKI file</h2>
             <p class="mb-6 text-xs text-[#8a927e]">Ver.2 – Ver.7 / .yki</p>
             <label class="btn btn-primary cursor-pointer">
-              {busy.value ? '読み込み中…' : 'YKI ファイルを選択'}
+              {busy.value ? 'Loading…' : 'Choose a YKI file'}
               <input
                 class="sr-only"
                 type="file"
                 accept=".yki"
-                aria-label="YKI をインポート"
+                aria-label="Import YKI"
                 disabled={busy.value}
                 onChange={(event: Event) => {
                   const input = event.target as HTMLInputElement
@@ -162,10 +162,10 @@ export function App() @{
             error={binaryError}
             regions={binaryAreas}
           />
-          <aside class="panel overflow-hidden" aria-label="メニュー">
+          <aside class="panel overflow-hidden" aria-label="Menu">
             <div class="border-b border-[#e9ebdf] p-4">
               <div class="mb-4 flex items-center justify-between">
-                <h3 class="text-xs font-bold">プロジェクト</h3>
+                <h3 class="text-xs font-bold">Project</h3>
               </div>
               <button
                 class={`mb-3 w-full rounded-lg px-3 py-3 text-left text-xs font-semibold ${
@@ -174,13 +174,13 @@ export function App() @{
                 disabled={busy.value || !project.value.inspection}
                 aria-pressed={detail.value === 'header'}
                 onClick={() => focusHeader()}
-              >ヘッダー</button>
+              >Header</button>
               <div class="rounded-lg bg-[#f3f5ed] p-3">
                 <p
                   class="truncate text-xs font-semibold"
                   title={project.value.baseName}
                 >
-                  {project.value.baseName || '元の YKI を選択'}
+                  {project.value.baseName || 'Choose the original YKI'}
                 </p>
                 <p class="mono mt-1 text-[10px] text-[#8a927e]">
                   {project.value.inspection
@@ -193,7 +193,7 @@ export function App() @{
             </div>
             <div class="p-4">
               <div class="mb-3 flex justify-between">
-                <h3 class="text-xs font-bold">メダル一覧</h3>
+                <h3 class="text-xs font-bold">Medals</h3>
                 <span class="mono text-[10px] text-[#8b947e]">
                   {project.value.inspection ? '988 ROWS' : '—'}
                 </span>
@@ -201,8 +201,8 @@ export function App() @{
               <input
                 class="field"
                 type="search"
-                placeholder="B 番号で検索…"
-                aria-label="メダルを検索"
+                placeholder="Search by B number…"
+                aria-label="Search medals"
                 value={query.value}
                 onInput={(event: Event) => (query.value =
                   (event.target as HTMLInputElement).value)}
@@ -216,7 +216,7 @@ export function App() @{
                   onChange={(event: Event) => (showEmpty.value =
                     (event.target as HTMLInputElement).checked)}
                 />
-                未登録のメダルも表示
+                Show unregistered medals
               </label>
             </div>
             <div
@@ -252,9 +252,9 @@ export function App() @{
                       <span class="ml-2 text-[10px] text-[#89917d]">
                         {medal.active
                           ? medal.type === 'song'
-                            ? 'うた'
-                            : 'ノーマル'
-                          : '未登録'}
+                            ? 'Song'
+                            : 'Normal'
+                          : 'Unregistered'}
                       </span>
                     </div>
                     <span
@@ -267,29 +267,29 @@ export function App() @{
                 }
               } @else {
                 <p class="px-3 py-8 text-center text-xs text-[#949c88]">
-                  YKI を開くと表示されます。
+                  Open a YKI file to view this.
                 </p>
               }
             </div>
           </aside>
-          <section class="panel min-w-0 overflow-hidden" aria-label="詳細">
+          <section class="panel min-w-0 overflow-hidden" aria-label="Details">
             @if (detail.value === 'header') {
               <div class="p-5 sm:p-6">
-                <h2 class="mb-5 text-lg font-bold">ヘッダー</h2>
+                <h2 class="mb-5 text-lg font-bold">Header</h2>
                 <dl
                   class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 gap-y-4 text-xs"
                 >
-                  <dt>ファイル名</dt>
+                  <dt>Filename</dt>
                   <dd class="break-all">{project.value.baseName}</dd>
-                  <dt>マジック</dt>
+                  <dt>Magic</dt>
                   <dd class="mono break-all">
                     BandaiYokai3rd******************
                   </dd>
-                  <dt>バージョン</dt>
+                  <dt>Version</dt>
                   <dd>
                     <select
                       class="field"
-                      aria-label="バージョン"
+                      aria-label="Version"
                       disabled={busy.value}
                       onFocus={() => focusVersion()}
                       value={project.value.config.version === undefined
@@ -301,7 +301,7 @@ export function App() @{
                     >
                       <option
                         value="inherit"
-                      >{`元のバージョンを継承 (Ver.${project.value.inspection.summary.version})`}</option>
+                      >{`Inherit the original version (Ver.${project.value.inspection.summary.version})`}</option>
                       @for (const version of [
                         0,
                         1,
@@ -321,11 +321,11 @@ export function App() @{
                       }
                     </select>
                   </dd>
-                  <dt>ファイルサイズ</dt>
+                  <dt>File size</dt>
                   <dd>{`${binaryInspection.value!.summary.size.toLocaleString()} bytes`}</dd>
-                  <dt>リソース数</dt>
+                  <dt>Resource count</dt>
                   <dd>{binaryInspection.value!.resources.length}</dd>
-                  <dt>登録メダル</dt>
+                  <dt>Registered medals</dt>
                   <dd>{binaryInspection.value!.rows.filter(
                     (row) => row.active,
                   ).length}</dd>
@@ -353,15 +353,15 @@ export function App() @{
                       disabled={busy.value}
                       onClick={() => {
                         project.value = resetRow(project.value, selected.value)
-                        notify('このメダルの編集を元に戻しました。')
+                        notify('Edits to this medal have been reset.')
                       }}
                     >
-                      編集をリセット
+                      Reset edits
                     </button>
                   </div>
                   <div class="mt-5 grid grid-cols-2 gap-3">
                     <label>
-                      <span class="label">メダルタイプ</span>
+                      <span class="label">Medal type</span>
                       <select
                         class="field"
                         value={selectedType()}
@@ -370,18 +370,18 @@ export function App() @{
                           type: (event.target as HTMLSelectElement).value as 'normal' | 'song',
                         })}
                       >
-                        <option value="normal">ノーマル</option>
-                        <option value="song">うたメダル</option>
+                        <option value="normal">Normal</option>
+                        <option value="song">Song medal</option>
                       </select>
                     </label>
                     <label>
-                      <span class="label">テンプレート（任意）</span>
+                      <span class="label">Template (optional)</span>
                       <input
                         class="field mono"
                         type="number"
                         min="1"
                         max="988"
-                        placeholder="元のメダルを継承"
+                        placeholder="Inherit the original medal"
                         disabled={busy.value}
                         value={rowOverride(
                           project.value,
@@ -418,18 +418,19 @@ export function App() @{
                     <p
                       class="mt-3 rounded-lg bg-[#fff8dc] p-3 text-[11px] text-[#8b7131]"
                     >
-                      新規メダルにはタイプと主音声が必要です。実機での凸パターン認識は別途確認してください。
+                      New medals require a type and primary sound. Verify peg
+                      pattern recognition on the device separately.
                     </p>
                   }
                 </div>
                 <div
                   class="flex gap-6 border-b border-[#e7eadf] px-5"
                   role="tablist"
-                  aria-label="編集カテゴリー"
+                  aria-label="Editing category"
                 >
                   @for (const item of [
-                    { id: 'sound', label: '音声' },
-                    { id: 'led', label: 'LED パターン' },
+                    { id: 'sound', label: 'Audio' },
+                    { id: 'led', label: 'LED pattern' },
                   ]) {
                     <button
                       class={`border-b-2 py-4 text-xs font-semibold ${
@@ -453,7 +454,7 @@ export function App() @{
                     <div>
                       <div class="mb-4 flex items-center justify-between">
                         <p class="text-[11px] text-[#808a73]">
-                          変更しない音声は、元の設定をそのまま使います。
+                          Unchanged sounds retain their original settings.
                         </p>
                         <span
                           class="mono hidden text-[9px] text-[#939d86] sm:block"
@@ -492,10 +493,12 @@ export function App() @{
                         }
                       </div>
                       <div class="mt-6 border-t border-[#e5e9dc] pt-5">
-                        <h4 class="mb-4 text-xs font-bold">音声変換の設定</h4>
+                        <h4 class="mb-4 text-xs font-bold">
+                          Audio conversion settings
+                        </h4>
                         <div class="grid grid-cols-2 gap-3">
                           <label>
-                            <span class="label">音量</span>
+                            <span class="label">Volume</span>
                             <select
                               class="field"
                               disabled={busy.value}
@@ -515,13 +518,15 @@ export function App() @{
                                 }
                               }}
                             >
-                              <option value="preserve">元の音量を保持</option>
-                              <option value="peak">ピークを合わせる</option>
-                              <option value="match">LUFS を合わせる</option>
+                              <option value="preserve">
+                                Preserve original volume
+                              </option>
+                              <option value="peak">Match peak level</option>
+                              <option value="match">Match LUFS</option>
                             </select>
                           </label>
                           <label>
-                            <span class="label">20 ms フレーム調整</span>
+                            <span class="label">20 ms frame alignment</span>
                             <select
                               class="field"
                               disabled={busy.value}
@@ -541,9 +546,11 @@ export function App() @{
                                 }
                               }}
                             >
-                              <option value="trim">末尾をトリム</option>
-                              <option value="pad">無音で埋める</option>
-                              <option value="error">不一致でエラー</option>
+                              <option value="trim">Trim the end</option>
+                              <option value="pad">Pad with silence</option>
+                              <option value="error">
+                                Reject misaligned audio
+                              </option>
                             </select>
                           </label>
                         </div>
@@ -569,7 +576,7 @@ export function App() @{
                               }
                             }}
                           />
-                          音量調整時のクリッピングを許可
+                          Allow clipping during volume adjustment
                         </label>
                       </div>
                     </div>
@@ -593,7 +600,7 @@ export function App() @{
                         ></span>
                       </div>
                       <label>
-                        <span class="label">LED の設定</span>
+                        <span class="label">LED settings</span>
                         <select
                           class="field"
                           disabled={busy.value}
@@ -632,13 +639,15 @@ export function App() @{
                             )
                           }}
                         >
-                          <option value="inherit">元のパターンを継承</option>
-                          <option value="resource">
-                            既存パターンを繰り返す
+                          <option value="inherit">
+                            Inherit the original pattern
                           </option>
-                          <option value="frames">RGB フレームを作成</option>
-                          <option value="file">LED JSON ファイル</option>
-                          <option value="none">クリア / 黒フレーム</option>
+                          <option value="resource">
+                            Repeat an existing pattern
+                          </option>
+                          <option value="frames">Create RGB frames</option>
+                          <option value="file">LED JSON file</option>
+                          <option value="none">Clear / black frame</option>
                         </select>
                       </label>
                       @if (
@@ -650,7 +659,7 @@ export function App() @{
                         <>
                           <div class="mt-4 grid grid-cols-2 gap-3">
                             <label>
-                              <span class="label">LED リソース</span>
+                              <span class="label">LED resource</span>
                               <select
                                 class="field mono"
                                 disabled={busy.value}
@@ -681,7 +690,7 @@ export function App() @{
                               </select>
                             </label>
                             <label>
-                              <span class="label">繰り返し回数</span>
+                              <span class="label">Repeat count</span>
                               <input
                                 class="field mono"
                                 type="number"
@@ -716,7 +725,7 @@ export function App() @{
                         <>
                           <label class="mt-4 block">
                             <span class="label">
-                              RGB フレーム / [[r, g, b], …]
+                              RGB frames / [[r, g, b], …]
                             </span>
                             <textarea
                               class="field mono min-h-36 resize-y"
@@ -732,12 +741,12 @@ export function App() @{
                               disabled={busy.value}
                               onClick={applyFrames}
                             >
-                              フレームを反映
+                              Apply frames
                             </button>
                             <label
                               class="flex items-center gap-2 text-[11px] text-[#7d856e]"
                             >
-                              繰り返し
+                              Repeat
                               <input
                                 class="field mono w-20"
                                 type="number"
@@ -776,7 +785,7 @@ export function App() @{
                           class="field mt-4"
                           accept=".json"
                           disabled={busy.value}
-                          aria-label="LED JSON ファイル"
+                          aria-label="LED JSON file"
                           onChange={(event: Event) => {
                             const file = (event.target as HTMLInputElement).files?.[0]
                             if (file) {
@@ -793,10 +802,10 @@ export function App() @{
                       <p
                         class="mt-6 rounded-lg bg-[#f2f5ec] p-3 text-[11px] leading-5 text-[#808c70]"
                       >
-                        各チャンネルは 0〜255。LED の物理的な RGB
-                        順序と周期は未確認のため、fps
-                        設定はありません。繰り返しは最大 1,024 回・合計 100
-                        万フレームです。
+                        Each channel ranges from 0 to 255. The physical RGB
+                        order and timing are unverified, so there is no fps
+                        setting. Repeats are limited to 1,024 and one million
+                        total frames.
                       </p>
                     </div>
                   }
@@ -808,7 +817,7 @@ export function App() @{
       }
       @if (project.value.manifest?.warnings.length) {
         <section class="rounded-xl border border-[#e6d7a5] bg-[#fff9e8] p-4">
-          <h4 class="mb-2 text-xs font-semibold">生成時の注意</h4>
+          <h4 class="mb-2 text-xs font-semibold">Build warnings</h4>
           @for (const warning of project.value.manifest.warnings) {
             <p
               class="mb-2 break-words text-[10px] leading-5 text-[#8a7746]"
@@ -839,11 +848,11 @@ export function App() @{
       >
         <div class="mb-4 flex items-center justify-between gap-4">
           <h2 id="sound-preview-title" class="text-sm font-semibold">
-            元の音声のプレビュー
+            Original sound preview
           </h2>
           <form method="dialog">
-            <button class="btn" aria-label="音声プレビューを閉じる">
-              閉じる
+            <button class="btn" aria-label="Close sound preview">
+              Close
             </button>
           </form>
         </div>
@@ -864,9 +873,9 @@ export function App() @{
         }}
       >
         <div class="p-5">
-          <h2 id="export-title" class="mb-5 text-sm font-bold">エクスポート</h2>
+          <h2 id="export-title" class="mb-5 text-sm font-bold">Export</h2>
           <label class="block">
-            <span class="label">出力ファイル名</span>
+            <span class="label">Output filename</span>
             <input
               class="field mono"
               value={project.value.outputName}
@@ -880,7 +889,7 @@ export function App() @{
             />
           </label>
           <label class="mt-4 block">
-            <span class="label">読み上げバージョン</span>
+            <span class="label">Spoken version</span>
             <select
               class="field"
               disabled={busy.value || !project.value.inspection}
@@ -891,7 +900,7 @@ export function App() @{
                 (event.target as HTMLSelectElement).value,
               )}
             >
-              <option value="inherit">元のバージョンを継承</option>
+              <option value="inherit">Inherit the original version</option>
               @for (const version of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
                 <option value={String(version)}>{`Ver.${version}`}</option>
               }
@@ -901,7 +910,7 @@ export function App() @{
             class="my-5 grid grid-cols-2 gap-3 border-y border-[#e9ecdf] py-4"
           >
             <div>
-              <p class="text-[10px] text-[#869078]">編集済みメダル</p>
+              <p class="text-[10px] text-[#869078]">Edited medals</p>
               <p
                 class="mono mt-1 text-xl font-bold"
               >{new Set(project.value.config.overrides.map(
@@ -909,7 +918,7 @@ export function App() @{
               )).size}</p>
             </div>
             <div>
-              <p class="text-[10px] text-[#869078]">追加ファイル</p>
+              <p class="text-[10px] text-[#869078]">Additional files</p>
               <p class="mono mt-1 text-xl font-bold">{Object.keys(
                 project.value.files,
               ).length}</p>
@@ -931,7 +940,7 @@ export function App() @{
               if (success) dialog.close()
             }}
           >
-            {busy.value ? '処理中…' : 'YKI をエクスポート'}
+            {busy.value ? 'Processing…' : 'Export YKI'}
           </button>
           <button
             class="btn mt-2 w-full"
@@ -942,7 +951,7 @@ export function App() @{
               'application/json',
             )}
           >
-            JSON 設定を保存
+            Save JSON configuration
           </button>
           @if (project.value.manifest) {
             <button
@@ -953,7 +962,7 @@ export function App() @{
                 'application/json',
               )}
             >
-              マニフェストを保存
+              Save manifest
             </button>
           }
 
@@ -966,7 +975,7 @@ export function App() @{
               ) as HTMLDialogElement
               dialog.close()
             }}
-          >キャンセル</button>
+          >Cancel</button>
         </div>
       </dialog>
       @if (error.value || status.value) {
@@ -991,7 +1000,7 @@ export function App() @{
           </p>
           <button
             class="ml-auto shrink-0 px-1 text-base leading-5"
-            aria-label="通知を閉じる"
+            aria-label="Dismiss notification"
             onClick={() => {
               error.value = ''
               notify('')

@@ -129,7 +129,7 @@ test('SDK binds independent core and 3D WASM, including JSON routing and shutdow
       await sdk.request({ op: 'generate_medal', bits: '1011011000011010', mode: 'lite' }),
       expected,
     )
-    await assert.rejects(sdk.generateMedal('bad'), /16桁/)
+    await assert.rejects(sdk.generateMedal('bad'), /16 binary digits/)
     assert.deepEqual(await sdk.generateMedal('1011011000011010', { mode: 'lite' }), expected)
     const core = await createCore(wasm)
     assert.equal(typeof core.generateMedal, 'undefined')
