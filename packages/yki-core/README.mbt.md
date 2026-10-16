@@ -105,7 +105,7 @@ MoonBit のユニットテストと、合成 YKI を使う Node / WASM の統合
 
 ## データと実機上の意味
 
-スキーマ・既存の凸パターン対応表・根拠は `data.mbt` に組み込んでおり、実行時に `custom-legacy` や `research` の Python コードを読みません。対応表には従来どおり high / medium / low の確度があり、strict は medium / low を拒否します。物理認識・LED の RGB 順序と周期・ファームウェア更新判定は既存の未検証事項を引き継ぎます。この移植の生成結果について新たな実機検証は行っていません。
+スキーマ・既存の凸パターン対応表・根拠は `*.generated.mbt` に組み込んでおり、実行時に `custom-legacy` や `research` の Python コードを読みません。対応表には従来どおり high / medium / low の確度があり、strict は medium / low を拒否します。物理認識・LED の RGB 順序と周期・ファームウェア更新判定は既存の未検証事項を引き継ぎます。この移植の生成結果について新たな実機検証は行っていません。
 
 Raw codec APIs: encode_g7221(Bytes) / decode_g7221(Bytes). JavaScript: createG7221(wasm), Core.encodeG7221(pcm), Core.decodeG7221(payload). No host is required.
 
@@ -115,6 +115,8 @@ Raw codec APIs: encode_g7221(Bytes) / decode_g7221(Bytes). JavaScript: createG72
 
 ## Embedded JSON data
 
-`data/schema.json`, `data/bump_confirmed_lookup.json`, and `data/bump_lookup_evidence.json` are tracked source files. `scripts/embed-data.mjs` validates their JSON and generates `data.mbt` before each WASM build. This build-time generator does not require a MoonBit macro extension. Runtime operations still use embedded strings and require no external files.
+`data/schema.json`, `data/bump_confirmed_lookup.json`, and `data/bump_lookup_evidence.json` are tracked source files. Rules in `moon.pkg` invoke the official `moon tool embed --text` command to embed them as MoonBit strings. `moon build`, `moon check`, and `moon test` regenerate the corresponding `*.generated.mbt` files when their JSON inputs change. Unchanged inputs do not need regeneration. Runtime operations require no external JSON files.
 
-Edit the JSON files, run `pnpm --dir packages/yki-core run generate:data`, and commit both the JSON and generated `data.mbt`. The generated file is tracked so direct `moon build` and `moon test` also work. `pnpm --dir packages/yki-core test` checks that it is current. The Python legacy CLI and peg research scripts read the same tracked lookup and evidence files instead of the ignored `research/data/` directory.
+Edit the JSON files and run `moon build --target wasm` in this module (or the usual npm build command), then commit the JSON and generated files. Generated sources remain tracked because MoonBit does not run development build rules when the module is consumed as a downstream dependency. No custom JavaScript generator or MoonBit macro extension is needed.
+
+The official command embeds text without parsing JSON. The npm WASM build validates JSON before compilation; MoonBit whitebox tests also parse all three embedded values, and Node integration tests verify their compiled content and generated-source freshness. The Python legacy CLI and peg research scripts read the same tracked lookup and evidence files instead of the ignored `research/data/` directory.

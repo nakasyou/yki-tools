@@ -1,8 +1,9 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, cpSync, rmSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdtempSync, cpSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
 import { createCore } from '../js/index.mjs'
 import { fixture } from './fixture.mjs'
@@ -27,29 +28,76 @@ test('compiled WASM uses the canonical schema, lookup and confidence evidence', 
   }
 })
 
-test('build-time generator detects stale output, embeds edits and rejects invalid JSON', () => {
-  const directory = mkdtempSync(join(tmpdir(), 'yki-data-'))
+test('tracked generated sources match the official embed command', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'yki-embed-'))
   try {
-    mkdirSync(join(directory, 'scripts'))
-    cpSync(new URL('scripts/embed-data.mjs', root), join(directory, 'scripts/embed-data.mjs'))
-    cpSync(new URL('data/', root), join(directory, 'data'), { recursive: true })
-    cpSync(new URL('data.mbt', root), join(directory, 'data.mbt'))
-    const run = (...args) =>
-      spawnSync(process.execPath, [join(directory, 'scripts/embed-data.mjs'), ...args], {
+    for (const [name, file] of [
+      ['schema_json', 'schema'],
+      ['bump_lookup_json', 'bump_confirmed_lookup'],
+      ['bump_evidence_json', 'bump_lookup_evidence'],
+    ]) {
+      const output = join(directory, `${file}.mbt`)
+      const result = spawnSync(
+        'moon',
+        [
+          'tool',
+          'embed',
+          '--text',
+          '--input',
+          fileURLToPath(new URL(`data/${file}.json`, root)),
+          '--output',
+          output,
+          '--name',
+          name,
+        ],
+        { encoding: 'utf8' },
+      )
+      assert.equal(result.status, 0, result.stderr)
+      assert.equal(
+        readFileSync(new URL(`${file}.generated.mbt`, root), 'utf8'),
+        readFileSync(output, 'utf8'),
+      )
+    }
+  } finally {
+    rmSync(directory, { recursive: true, force: true })
+  }
+})
+
+test('Moon build rules embed JSON edits and the WASM build rejects malformed JSON', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'yki-build-'))
+  try {
+    cpSync(root, directory, {
+      recursive: true,
+      filter: (source) =>
+        !source
+          .split(/[\\/]/)
+          .some((part) => ['_build', 'dist', 'node_modules', '.mooncakes'].includes(part)) &&
+        !source.endsWith('.generated.mbt'),
+    })
+    const build = () =>
+      spawnSync('moon', ['build', '--target', 'wasm', '--release'], {
+        cwd: directory,
         encoding: 'utf8',
       })
-    assert.equal(run('--check').status, 0)
-    const changed = { ...schema, title: 'Build-time embedding test' }
-    writeFileSync(join(directory, 'data/schema.json'), JSON.stringify(changed))
-    assert.notEqual(run('--check').status, 0)
-    assert.equal(run().status, 0)
-    assert.equal(run('--check').status, 0)
-    const generated = readFileSync(join(directory, 'data.mbt'), 'utf8')
-    const match = generated.match(/let schema_json : String = ("(?:\\.|[^"\\])*")/)
-    assert.deepEqual(JSON.parse(JSON.parse(match[1])), changed)
-    writeFileSync(join(directory, 'data/schema.json'), '{broken')
-    assert.notEqual(run().status, 0)
-    assert.equal(readFileSync(join(directory, 'data.mbt'), 'utf8'), generated)
+    const changed = { ...schema, title: 'Official embedding test' }
+    const input = join(directory, 'data/schema.json')
+    writeFileSync(input, JSON.stringify(changed))
+    let result = build()
+    assert.equal(result.status, 0, result.stderr)
+    const wasm = join(directory, '_build/wasm/release/build/wasm/wasm.wasm')
+    assert.deepEqual((await createCore(readFileSync(wasm))).schema(), changed)
+    changed.title = 'Updated JSON input'
+    writeFileSync(input, JSON.stringify(changed))
+    result = build()
+    assert.equal(result.status, 0, result.stderr)
+    assert.deepEqual((await createCore(readFileSync(wasm))).schema(), changed)
+    const previous = readFileSync(wasm)
+    writeFileSync(input, '{broken')
+    result = spawnSync(process.execPath, [join(directory, 'scripts/build.mjs')], {
+      encoding: 'utf8',
+    })
+    assert.notEqual(result.status, 0)
+    assert.deepEqual(readFileSync(wasm), previous)
   } finally {
     rmSync(directory, { recursive: true, force: true })
   }
