@@ -3,7 +3,7 @@
 - `analyze_yki.py`: Analyzes YKI structure, references, and checksums. Original files are read from `../yki/`; extracted data is written to `../outputs/yki_analysis/`.
 - `decode_bumps.py`: Resolves peg patterns to B numbers with supporting evidence and confidence levels.
 - `audit_special_order.py`, `scan_yki_bump_tables.py`, and `compare_yki_unknowns.py`: Investigate mappings and unresolved regions.
-- `data/`: JSON and CSV records of analysis results, mappings, sources, and hypotheses. Includes the lookup tables used by the CLI.
+- `data/`: JSON and CSV records of analysis results, mappings, sources, and hypotheses. Generated results are excluded from Git. The lookup tables used by the CLI are tracked in `../packages/yki-core/data/`.
 - `reports/`: Hardware experiment records.
 - `experiments/`: Exploratory scripts, some of which depend on specific execution conditions or locally downloaded materials.
 

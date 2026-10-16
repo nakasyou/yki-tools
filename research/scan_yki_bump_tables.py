@@ -10,7 +10,7 @@ from pathlib import Path
 import struct
 
 OUT = Path(__file__).parent / "data"
-PAIRS = json.loads((OUT / 'bump_confirmed_lookup.json').read_text())
+PAIRS = json.loads((Path(__file__).resolve().parents[1] / 'packages/yki-core/data/bump_confirmed_lookup.json').read_text())
 ROOT = Path(__file__).resolve().parents[1] / 'yki'
 
 

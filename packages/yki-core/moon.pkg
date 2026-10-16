@@ -4,3 +4,36 @@ import {
   "moonbitlang/core/encoding/utf8",
   "moonbitlang/core/math",
 }
+
+rule(
+  name: "embed-schema",
+  command: "moon tool embed --text --input $input --output $output --name schema_json",
+)
+
+dev_build(
+  rule: "embed-schema",
+  input: "data/schema.json",
+  output: "schema.generated.mbt",
+)
+
+rule(
+  name: "embed-bump_confirmed_lookup",
+  command: "moon tool embed --text --input $input --output $output --name bump_lookup_json",
+)
+
+dev_build(
+  rule: "embed-bump_confirmed_lookup",
+  input: "data/bump_confirmed_lookup.json",
+  output: "bump_confirmed_lookup.generated.mbt",
+)
+
+rule(
+  name: "embed-bump_lookup_evidence",
+  command: "moon tool embed --text --input $input --output $output --name bump_evidence_json",
+)
+
+dev_build(
+  rule: "embed-bump_lookup_evidence",
+  input: "data/bump_lookup_evidence.json",
+  output: "bump_lookup_evidence.generated.mbt",
+)

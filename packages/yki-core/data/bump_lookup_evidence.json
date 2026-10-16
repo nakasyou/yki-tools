@@ -1,0 +1,266 @@
+{
+  "F4C": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [549, 766],
+    "complete_record_candidates_Ver7": [766],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "F42": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [759],
+    "complete_record_candidates_Ver7": [759],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "F4E": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [551, 768],
+    "complete_record_candidates_Ver7": [768],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "F41": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [474, 758],
+    "complete_record_candidates_Ver7": [758],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "F4D": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [550, 767],
+    "complete_record_candidates_Ver7": [767],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "F4B": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [765],
+    "complete_record_candidates_Ver7": [765],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "F24": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [738, 913],
+    "complete_record_candidates_Ver7": [738],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "F23": {
+    "evidence_kind": "user real-device code/name confirmation plus catalogue/arithmetic association",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [737, 912],
+    "complete_record_candidates_Ver7": [737],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence.",
+    "real_device_name_verified": true,
+    "recognized_name": "Bジバニャン",
+    "tested_version_context": 2,
+    "general_formula_verified": false
+  },
+  "FDC": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [844],
+    "complete_record_candidates_Ver7": [844],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "FD6": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [],
+    "complete_record_candidates_Ver7": [839],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "F7C": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [],
+    "complete_record_candidates_Ver7": [788],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "F72": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [582, 590, 591, 592, 593, 594, 781],
+    "complete_record_candidates_Ver7": [781],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "F76": {
+    "evidence_kind": "playback-name/catalogue join; arithmetic agreement",
+    "physical_printed_B_verified": false,
+    "same_p4_reference_candidates_Ver7": [],
+    "complete_record_candidates_Ver7": [784],
+    "note": "Full-record uniqueness does not verify that the physical code selects this record; blog did not report the full playback sequence."
+  },
+  "756": {
+    "evidence_kind": "named physical-pattern/catalogue-variant join",
+    "physical_printed_B_verified": false,
+    "bump_sources": [
+      "https://takanakafumi.hatenablog.com/entry/2015/01/02/114408",
+      "https://ameblo.jp/linatomoyar/entry-12098655017.html"
+    ],
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000540",
+    "note": "Two bump/name sources agree. B label comes from catalogue, not a photograph of the same object."
+  },
+  "759": {
+    "evidence_kind": "named physical-pattern/catalogue-variant join",
+    "physical_printed_B_verified": false,
+    "bump_sources": [
+      "https://takanakafumi.hatenablog.com/entry/2015/01/02/114408",
+      "https://ameblo.jp/linatomoyar/entry-12098655017.html"
+    ],
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000541",
+    "note": "Two bump/name sources agree. B label comes from catalogue, not a photograph of the same object."
+  },
+  "F5D": {
+    "evidence_kind": "playback-name/catalogue-variant join",
+    "physical_printed_B_verified": false,
+    "name": "えんらえんら・怪",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-12095417562.html",
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000554",
+    "note": "Synthetic-code playback list joined to ordinary classical medal catalogue; no same-object printed-label photograph."
+  },
+  "F5B": {
+    "evidence_kind": "playback-name/catalogue-variant join",
+    "physical_printed_B_verified": false,
+    "name": "河童・怪",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-12095417562.html",
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000555",
+    "note": "Synthetic-code playback list joined to ordinary classical medal catalogue; no same-object printed-label photograph."
+  },
+  "F57": {
+    "evidence_kind": "playback-name/catalogue-variant join",
+    "physical_printed_B_verified": false,
+    "name": "から傘お化け・怪",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-12095417562.html",
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000557",
+    "note": "Synthetic-code playback list joined to ordinary classical medal catalogue; no same-object printed-label photograph."
+  },
+  "F5C": {
+    "evidence_kind": "playback-name/catalogue-variant join",
+    "physical_printed_B_verified": false,
+    "name": "ざしきわらし・怪",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-12095417562.html",
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000556",
+    "note": "Synthetic-code playback list joined to ordinary classical medal catalogue; no same-object printed-label photograph."
+  },
+  "E5F": {
+    "evidence_kind": "named bump/playback-source and normal Z-medal catalogue join",
+    "physical_printed_B_verified": false,
+    "name": "セバスチャン",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-11976174364.html",
+    "quoted_row": "77 セバスチャン 0111 1010 1111",
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000543",
+    "note": "Exact source row retrieved; catalogue identifier is B-prefixed. Same-object printed-label measurement remains absent."
+  },
+  "E5D": {
+    "evidence_kind": "named bump/playback-source and normal Z-medal catalogue join",
+    "physical_printed_B_verified": false,
+    "name": "コマさん",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-11978180594.html",
+    "quoted_row": "142 コマさん 0111 1010 1011 もんげ～",
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507800220",
+    "note": "Exact source row retrieved; catalogue identifier is B-prefixed. Same-object printed-label measurement remains absent."
+  },
+  "E56": {
+    "evidence_kind": "named bump/playback-source and normal Z-medal catalogue join",
+    "physical_printed_B_verified": false,
+    "name": "キュウビ",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-11976174364.html",
+    "quoted_row": "80 キュウビ 0111 1010 0110",
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000591",
+    "note": "Exact source row retrieved; catalogue identifier is B-prefixed. Same-object printed-label measurement remains absent."
+  },
+  "E51": {
+    "evidence_kind": "named bump/playback-source and normal Z-medal catalogue join",
+    "physical_printed_B_verified": false,
+    "name": "ロボニャン",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-11976232741.html",
+    "quoted_row": "117 ロボニャン 0111 1010 1000 ボイスチェンジ（？）",
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000346",
+    "note": "Exact source row retrieved; catalogue identifier is B-prefixed. Same-object printed-label measurement remains absent."
+  },
+  "E53": {
+    "evidence_kind": "named bump/playback-source and normal Z-medal catalogue join",
+    "physical_printed_B_verified": false,
+    "name": "ツチノコ",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-11978188775.html",
+    "quoted_row": "285 ツチノコ 0111 1010 1100",
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000422",
+    "note": "B-prefixed catalogue label joined by name and medal variant; no same-object measurement."
+  },
+  "E58": {
+    "evidence_kind": "named bump/playback-source and normal Z-medal catalogue join",
+    "physical_printed_B_verified": false,
+    "name": "オロチ",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-11978188775.html",
+    "quoted_row": "320 オロチ 0111 1010 0001",
+    "B_number_source": "https://www.suruga-ya.jp/product/detail/507000590",
+    "note": "B-prefixed catalogue label joined by name and medal variant; no same-object measurement."
+  },
+  "E54": {
+    "evidence_kind": "named bump/playback-source and normal Z-medal catalogue join",
+    "physical_printed_B_verified": false,
+    "name": "ホノボーノ",
+    "bump_source": "https://ameblo.jp/linatomoyar/entry-11978185258.html",
+    "quoted_row": "189 ホノボーノ 0111 1010 0010 ボ～ノ～",
+    "B_number_source": "https://www.suruga-ya.jp/kaitori/search_buy?category=50012&page=103&search_word=",
+    "note": "B-prefixed catalogue label joined by name and medal variant; no same-object measurement.",
+    "identical_complete_record_candidates_all_versions_2_to_7": [125, 263],
+    "playback_disambiguation_limitation": "All nine pairs are identical in each supplied YKI version for these candidate records; observing this playback table alone cannot select a unique record."
+  },
+  "9C8": {
+    "evidence_kind": "legacy lookup; provenance not re-audited here",
+    "identical_complete_record_candidates_all_versions_2_to_7": [53, 309],
+    "playback_disambiguation_limitation": "All nine pairs are identical in each supplied YKI version for these candidate records; observing this playback table alone cannot select a unique record."
+  },
+  "75E": {
+    "evidence_kind": "legacy lookup; provenance not re-audited here",
+    "identical_complete_record_candidates_all_versions_2_to_7": [96, 265],
+    "playback_disambiguation_limitation": "All nine pairs are identical in each supplied YKI version for these candidate records; observing this playback table alone cannot select a unique record."
+  },
+  "B64": {
+    "evidence_kind": "legacy lookup; provenance not re-audited here",
+    "identical_complete_record_candidates_all_versions_2_to_7": [96, 265],
+    "playback_disambiguation_limitation": "All nine pairs are identical in each supplied YKI version for these candidate records; observing this playback table alone cannot select a unique record."
+  },
+  "B8F": {
+    "evidence_kind": "legacy lookup; provenance not re-audited here",
+    "identical_complete_record_candidates_all_versions_2_to_7": [125, 263],
+    "playback_disambiguation_limitation": "All nine pairs are identical in each supplied YKI version for these candidate records; observing this playback table alone cannot select a unique record."
+  },
+  "D92": {
+    "evidence_kind": "legacy lookup; provenance not re-audited here",
+    "identical_complete_record_candidates_all_versions_2_to_7": [217, 329],
+    "playback_disambiguation_limitation": "All nine pairs are identical in each supplied YKI version for these candidate records; observing this playback table alone cannot select a unique record."
+  },
+  "DB1": {
+    "evidence_kind": "legacy lookup; provenance not re-audited here",
+    "identical_complete_record_candidates_all_versions_2_to_7": [227, 369],
+    "playback_disambiguation_limitation": "All nine pairs are identical in each supplied YKI version for these candidate records; observing this playback table alone cannot select a unique record."
+  },
+  "E7B": {
+    "evidence_kind": "user real-device code/name observation; printed-number association separately supported",
+    "real_device_name_verified": true,
+    "recognized_name": "モグモグブラザーズ",
+    "tested_version_context": 2,
+    "canonical_rows": ["1110", "0111", "1011", "1010"],
+    "printed_number": 655,
+    "physical_printed_B_verified": true,
+    "printed_number_evidence": "Earlier user same-object B655 observation",
+    "general_formula_verified": false
+  },
+  "E7C": {
+    "evidence_kind": "user real-device code/name observation; printed-number association separately supported",
+    "real_device_name_verified": true,
+    "recognized_name": "サマーウォッチ",
+    "tested_version_context": 2,
+    "canonical_rows": ["1110", "0111", "1100", "1010"],
+    "printed_number": 656,
+    "physical_printed_B_verified": false,
+    "printed_number_evidence": "Catalogue B656 https://www.suruga-ya.jp/product/detail/507001008; user confirms name from printed test piece, not printed B label",
+    "general_formula_verified": false
+  }
+}

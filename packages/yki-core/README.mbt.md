@@ -105,10 +105,18 @@ Only `test:parity` uses the Python environment in `custom-legacy` for comparison
 
 ## Data and hardware interpretation
 
-The schema, existing peg lookup table, and evidence are embedded in `data.mbt`; runtime operations do not read Python code from `custom-legacy` or `research`. Mappings retain high / medium / low confidence, and strict mode rejects medium / low confidence. Physical recognition, LED RGB order and timing, and firmware update decisions remain unverified as before. No new hardware validation has been performed for output from this port.
+The schema, existing peg lookup table, and evidence are embedded in `*.generated.mbt`; runtime operations do not read Python code from `custom-legacy` or `research`. Mappings retain high / medium / low confidence, and strict mode rejects medium / low confidence. Physical recognition, LED RGB order and timing, and firmware update decisions remain unverified as before. No new hardware validation has been performed for output from this port.
 
 Raw codec APIs: encode_g7221(Bytes) / decode_g7221(Bytes). JavaScript: createG7221(wasm), Core.encodeG7221(pcm), Core.decodeG7221(payload). No host is required.
 
 Raw codec APIs: encode_g7221(Bytes) / decode_g7221(Bytes). JavaScript: createG7221(wasm), Core.encodeG7221(pcm), Core.decodeG7221(payload). No host is required.
 
 3D model generation lives in the independent [packages/3d](../3d/README.md) MoonBit/WASM package. The [SDK](../yki-sdk/README.md) binds both modules.
+
+## Embedded JSON data
+
+`data/schema.json`, `data/bump_confirmed_lookup.json`, and `data/bump_lookup_evidence.json` are tracked source files. Rules in `moon.pkg` invoke the official `moon tool embed --text` command to embed them as MoonBit strings. `moon build`, `moon check`, and `moon test` regenerate the corresponding `*.generated.mbt` files when their JSON inputs change. Unchanged inputs do not need regeneration. Runtime operations require no external JSON files.
+
+Edit the JSON files and run `moon build --target wasm` in this module (or the usual npm build command), then commit the JSON and generated files. Generated sources remain tracked because MoonBit does not run development build rules when the module is consumed as a downstream dependency. No custom JavaScript generator or MoonBit macro extension is needed.
+
+The official command embeds text without parsing JSON. The npm WASM build validates JSON before compilation; MoonBit whitebox tests also parse all three embedded values, and Node integration tests verify their compiled content and generated-source freshness. The Python legacy CLI and peg research scripts read the same tracked lookup and evidence files instead of the ignored `research/data/` directory.

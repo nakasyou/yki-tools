@@ -24,8 +24,8 @@ def bump_mapping(value):
     rows = bump_rows(value)
     a, b, c, _ = [int(s, 2) for s in rows]
     rail = f"{a:X}{b:X}{c:X}"
-    lookups = json.loads((ROOT / "research/data/bump_confirmed_lookup.json").read_text())
-    evidence = json.loads((ROOT / "research/data/bump_lookup_evidence.json").read_text()).get(rail, {})
+    lookups = json.loads((ROOT / "packages/yki-core/data/bump_confirmed_lookup.json").read_text())
+    evidence = json.loads((ROOT / "packages/yki-core/data/bump_lookup_evidence.json").read_text()).get(rail, {})
     if rail in lookups:
         confidence = "high" if evidence.get("physical_printed_B_verified") else "medium"
         return dict(row=lookups[rail], confidence=confidence, rail_hex=rail,
