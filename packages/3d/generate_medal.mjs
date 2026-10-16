@@ -57,7 +57,7 @@ async function main() {
   const target = resolve(output ?? medal.filename)
   const suffix = extname(target).toLowerCase()
   if (!['.scad', '.stl'].includes(suffix))
-    throw new Error('出力ファイルの拡張子は.scadまたは.stlにしてください')
+    throw new Error('The output filename must end in .scad or .stl')
   mkdirSync(dirname(target), { recursive: true })
   const temp = mkdtempSync(join(dirname(target), '.medal-'))
   try {
@@ -67,10 +67,10 @@ async function main() {
     if (suffix === '.stl') {
       staging = join(temp, 'medal.stl')
       const result = spawnSync(openscad, ['-o', staging, source], { stdio: 'inherit' })
-      if (result.error) throw new Error(`STL出力にはOpenSCADが必要です: ${result.error.message}`)
+      if (result.error) throw new Error(`STL output requires OpenSCAD: ${result.error.message}`)
       if (result.status !== 0)
         throw new Error(`OpenSCAD failed (${result.signal ?? result.status})`)
-      if (statSync(staging).size === 0) throw new Error('OpenSCADがSTLを生成しませんでした')
+      if (statSync(staging).size === 0) throw new Error('OpenSCAD did not generate an STL file')
     }
     renameSync(staging, target)
   } finally {

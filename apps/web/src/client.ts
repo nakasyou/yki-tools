@@ -13,7 +13,7 @@ worker.onmessage = ({ data }) => {
 }
 worker.onerror = () => {
   for (const task of pending.values())
-    task.reject(new Error('編集エンジンを起動できませんでした。ページを再読み込みしてください。'))
+    task.reject(new Error('Unable to start the editing engine. Reload the page.'))
   pending.clear()
 }
 export function call<T>(op: string, data: Record<string, unknown> = {}): Promise<T> {

@@ -1,13 +1,13 @@
 import type { Config, Led, Override, Sound, SoundField } from '@nakasyou/yki-core'
 import type { Project, Medal, Resource, Pair } from './types'
 export const soundFields: { key: SoundField; label: string; slot?: number }[] = [
-  { key: 'songSound', label: 'うた / Song' },
-  { key: 'summonSound', label: '召喚', slot: 0 },
-  { key: 'nameSound', label: '名前', slot: 4 },
-  { key: 'tribeSound', label: '種族', slot: 2 },
-  { key: 'introSound', label: 'イントロ', slot: 5 },
-  { key: 'postSound', label: '後奏', slot: 6 },
-  { key: 'callSound', label: '呼びかけ', slot: 8 },
+  { key: 'songSound', label: 'Song' },
+  { key: 'summonSound', label: 'Summon', slot: 0 },
+  { key: 'nameSound', label: 'Name', slot: 4 },
+  { key: 'tribeSound', label: 'Tribe', slot: 2 },
+  { key: 'introSound', label: 'Intro', slot: 5 },
+  { key: 'postSound', label: 'Postlude', slot: 6 },
+  { key: 'callSound', label: 'Call', slot: 8 },
 ]
 export function newProject(): Project {
   return {
@@ -84,10 +84,10 @@ export function ledResource(medal: Medal, resources: Resource[]): number | null 
 }
 export function inheritedLabel(medal: Medal, resources: Resource[], field: SoundField): string {
   const pair = audioPair(medal, resources, field)
-  if (!pair || pair[0] === 65535 || pair[0] === 65534) return 'なし'
-  if (pair[0] === 0) return `内蔵 #${pair[1]}`
+  if (!pair || pair[0] === 65535 || pair[0] === 65534) return 'None'
+  if (pair[0] === 0) return `Built-in #${pair[1]}`
   const resource = resources[pair[1]]
-  return `音声 #${pair[1]}${resource?.duration !== undefined ? ` · ${resource.duration.toFixed(2)} 秒` : ''}`
+  return `Audio #${pair[1]}${resource?.duration !== undefined ? ` · ${resource.duration.toFixed(2)} s` : ''}`
 }
 export function soundMode(sound: Sound | undefined): string {
   if (sound === undefined) return 'inherit'
@@ -117,7 +117,7 @@ export function parseFrames(value: string): [number, number, number][] {
         frame.some((n) => !Number.isInteger(n) || n < 0 || n > 255),
     )
   )
-    throw new Error('LED は [[r,g,b], …] の形式で、各色に 0〜255 を指定してください。')
+    throw new Error('LED frames must use [[r,g,b], ...], with each channel between 0 and 255.')
   return frames as [number, number, number][]
 }
 export function download(data: BlobPart, name: string, type = 'application/octet-stream') {

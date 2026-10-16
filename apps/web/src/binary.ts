@@ -6,15 +6,15 @@ export interface BinaryRange {
   label: string
 }
 export const binaryKinds = {
-  header: 'ヘッダー',
-  pointers: 'リソース索引',
-  root: '基本情報',
-  version: 'バージョン',
-  medal_table: 'メダル情報',
-  audio: '音声',
+  header: 'Header',
+  pointers: 'Resource index',
+  root: 'Basic information',
+  version: 'Version',
+  medal_table: 'Medal table',
+  audio: 'Audio',
   led: 'LED',
-  sequence: '再生シーケンス',
-  padding: '余白',
+  sequence: 'Playback sequence',
+  padding: 'Padding',
 } as const
 export type BinaryKind = keyof typeof binaryKinds
 export interface BinaryRegion extends BinaryRange {

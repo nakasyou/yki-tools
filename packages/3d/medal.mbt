@@ -8,11 +8,11 @@ pub fn generate_medal(
 ) -> Json raise ThreeDError {
   require(
     mode == "normal" || mode == "classic" || mode == "lite",
-    "モードはnormal、classic、liteのいずれかにしてください",
+    "Mode must be normal, classic, or lite",
   )
   require(
     orientation == "canonical" || orientation == "physical",
-    "向きはcanonicalまたはphysicalにしてください",
+    "Orientation must be canonical or physical",
   )
   let digits : Array[String] = []
   for c in bits.code_units() {
@@ -55,13 +55,13 @@ pub fn generate_medal(
       | 12288 => ()
       _ =>
         raise ThreeDError(
-          "16桁の0/1、または4桁×4行を指定してください",
+          "Provide 16 binary digits or four rows of four digits",
         )
     }
   }
   require(
     digits.length() == 16,
-    "16桁の0/1、または4桁×4行を指定してください",
+    "Provide 16 binary digits or four rows of four digits",
   )
   let reverse = (orientation == "canonical") != mirror
   let rows = Array::makei(4, row => {

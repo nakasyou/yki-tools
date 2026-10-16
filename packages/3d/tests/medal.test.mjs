@@ -46,9 +46,9 @@ test('separators and arbitrary terminal bits work; invalid input is rejected', (
   for (const bits of ['1001/0100/1110/0000', '1001,0100_1110-0000', '1001\t0100\n1110\u30000000'])
     assert.deepEqual(core.generateMedal(bits), expected)
   for (const bits of ['', '0000', '00000000000000000', '000000000000000x'])
-    assert.throws(() => core.generateMedal(bits), /16桁/)
-  assert.throws(() => core.generateMedal('0'.repeat(16), { mode: 'unknown' }), /モード/)
-  assert.throws(() => core.generateMedal('0'.repeat(16), { orientation: 'unknown' }), /向き/)
+    assert.throws(() => core.generateMedal(bits), /16 binary digits/)
+  assert.throws(() => core.generateMedal('0'.repeat(16), { mode: 'unknown' }), /Mode/)
+  assert.throws(() => core.generateMedal('0'.repeat(16), { orientation: 'unknown' }), /Orientation/)
   assert.throws(() => core.generateMedal('0'.repeat(16), { mirror: 'yes' }), /boolean/)
 })
 

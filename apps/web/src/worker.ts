@@ -5,7 +5,7 @@ import { createYkiSDK, filesLoader } from '@nakasyou/yki-sdk'
 import type { YkiSDK } from '@nakasyou/yki-sdk'
 const assets = new URL(`${import.meta.env.BASE_URL}engine/`, self.location.origin)
 const wasm = fetch(new URL('yki-core.wasm', assets)).then(async (response) => {
-  if (!response.ok) throw new Error('YKI エンジンを読み込めません。アセットをビルドしてください。')
+  if (!response.ok) throw new Error('Unable to load the YKI engine. Build the assets first.')
   return response.arrayBuffer()
 })
 let base: Uint8Array | null = null
@@ -48,7 +48,7 @@ async function handle({
       files = { 'base.yki': base }
     } else if (data.op === 'schema') result = engine.schema()
     else {
-      if (!base) throw new Error('元の YKI を読み込んでください。')
+      if (!base) throw new Error('Load the original YKI first.')
       if (data.op === 'resolve') result = engine.resolve(base, data.data.id as number, false)
       else if (data.op === 'preview') {
         const asset = engine.request({
